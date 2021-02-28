@@ -102,3 +102,7 @@ INFO: Unsupported notification method: $/setTraceNotification
 [0m2021.02.26 20:11:40 INFO  time: initialize in 5.49s[0m
 [0m2021.02.26 20:11:45 WARN  Build server is not auto-connectable.[0m
 [0m2021.02.26 20:11:45 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.02.27 15:47:00 INFO  Started: Metals version 0.10.0 in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app' for client vscode 1.53.2.[0m
+[0m2021.02.27 15:47:05 INFO  time: initialize in 5.64s[0m
+[0m2021.02.27 15:47:14 WARN  Build server is not auto-connectable.[0m
+[0m2021.02.27 15:47:14 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
