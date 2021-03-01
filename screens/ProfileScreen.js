@@ -8,7 +8,7 @@ export default function ProfileScreen({ navigation }) {
         <View styles={styles.container}>
             <StatusBar barStyle="dark-content" />
             <Text>profile</Text>
-            <Button title="settings" onPress={() => navigation.navigate({ routeName: 'SettingsScreen'})} />
+            <Button title="settings" onPress={() => navigation.navigate('Settings')} />
         </View>
     )
 }

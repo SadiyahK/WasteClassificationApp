@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, StatusBar } from 'react-native';
+import {View, StyleSheet, Text, StatusBar, Button } from 'react-native';
 
 export default function SettingsScreen({ navigation }) {
 

@@ -1,26 +1,4 @@
-// import React from 'react';
-// import {View, StyleSheet, Text, StatusBar } from 'react-native';
-
-// export default function ClassifierScreen({ navigation }) {
-
-//     //TODO: 
-//     return(
-//         <View styles={styles.container}>
-//             <StatusBar barStyle="dark-content" />
-//             <Text>Classifier</Text>
-//         </View>
-//     )
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//       flex: 1 ,
-//       alignItems: 'center',
-//       justifyContent: 'center'
-//   }
-// })
-
-import { StyleSheet, Text, View, StatusBar, ActivityIndicator, TouchableOpacity, Image} from 'react-native'
+import { StyleSheet, Text, View, StatusBar, ActivityIndicator, TouchableOpacity, Image, Button} from 'react-native'
 import * as tf from '@tensorflow/tfjs'
 import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
@@ -28,6 +6,7 @@ import * as jpeg from 'jpeg-js'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect }  from 'react';
 import { fetch, bundleResourceIO } from '@tensorflow/tfjs-react-native';
+import { color } from 'react-native-reanimated'
 
 class ClassifierScreen extends React.Component {
     state = {
@@ -131,6 +110,12 @@ class ClassifierScreen extends React.Component {
         }
     }
 
+    reset(event) {
+        this.setState({ predictions: null})
+        this.setState({results: null})
+        this.setState({image: null})
+      }
+
     render() {
         const { isTfReady, isModelReady, predictions, image, wasteDetector, results} = this.state
 
@@ -138,43 +123,53 @@ class ClassifierScreen extends React.Component {
             <View style={styles.container}>
                 <StatusBar barStyle='light-content' />
                 <View style={styles.loadingContainer}>
-                    <Text style={styles.commonTextStyles}>
+                    <Text style={styles.descBox}>Select an image from your gallery to classify!</Text>
+                    {/* <Text style={styles.commonTextStyles}>
                         TFJS ready? {isTfReady ? <Text>✅</Text> : ''}
-                    </Text>
+                    </Text> */}
 
-                    <View style={styles.loadingModelContainer}>
+                    {/* <View style={styles.loadingModelContainer}>
                         <Text style={styles.commonTextStyles}>Model ready? </Text>
                         {isModelReady ? (
                             <Text>✅</Text>
                         ) : (
                             <ActivityIndicator size='small' />
                         )}
-                    </View>
+                    </View> */}
                 </View>
                 <TouchableOpacity
                     style={styles.imageWrapper}
                     onPress={isModelReady ? this.selectImage : undefined}>
                     {image && <Image source={image} style={styles.imageContainer} />}
-
+                    {!isModelReady? 
+                    (<Text style={styles.commonTextStyles}>Waiting for Model to Load...</Text>)  : undefined}
                     {isModelReady && !image && (
-                        <Text style={styles.commonTextStyles}>Tap to choose image</Text>
+                        <Text style={styles.commonTextStyles}>Tap to choose an image</Text>
                     )}
                 </TouchableOpacity>
                 <View style={styles.predictionWrapper}>
+                    {!image && (
+                        <Text style={styles.commonTextWhite}>
+                            Predictions... </Text>
+                    )}
                     {isModelReady && image && (
-                        <Text style={styles.text}>
+                        <Text style={styles.commonTextWhite}>
                             Predictions: {predictions ? '' : 'Predicting...'}
                         </Text>
                     )}
                     {isModelReady &&
                     predictions &&
                     results &&
-                    <Text style={styles.commonTextStyles}>
-                        1st: {results[0]}{"  "} --Probability: {(predictions.dataSync()[5])}{"\n"}
-                        2nd: {(results[1])}{"  "} --Probability: {(predictions.dataSync()[4])}{"\n"}
-                        3rd: {(results[2])}{"  "} --Probability: {(predictions.dataSync()[3])}                       
+                    <Text style={styles.commonTextWhite}>
+                        1st: {results[0]}{"  "} --Probability: {(predictions.dataSync()[5].toPrecision(4))}{"\n"}
+                        2nd: {(results[1])}{"  "} --Probability: {(predictions.dataSync()[4].toPrecision(4))}{"\n"}
+                        3rd: {(results[2])}{"  "} --Probability: {(predictions.dataSync()[3].toPrecision(4))}                       
                     </Text>}
                 </View>
+                <TouchableOpacity onPress={(e) => this.reset(e)} style={styles.appButtonContainer}>
+                <Text style={ styles.button } onPress={(e) => this.reset(e)}>Reset</Text>
+                </TouchableOpacity>
+                
             </View>
         )
     }
@@ -183,11 +178,44 @@ class ClassifierScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        color: '#FFFEF2'
+    },
+    appButtonContainer:{
+        marginTop: 10,
+        elevation: 8,
+        backgroundColor: '#8FD14F',
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+
+    },    
+    button:{
+        color: '#FFFEF2',
+        width: '20%',
+        fontSize: 18,
+        fontWeight: "bold",
+        alignSelf: "center",
+    },
+    commonTextStyles:{
+        fontFamily: 'System',
+        fontWeight: 'bold',
+        alignItems: 'center',
+    },
+    commonTextWhite:{
+        fontFamily: 'System',
+        fontWeight: 'bold',
+        alignItems: 'center',
+        color: '#FFFEF2',
     },
     loadingContainer: {
-        marginTop: 80,
-        justifyContent: 'center'
+        marginTop: 10,
+        // backgroundColor: '#767676',
+        backgroundColor: 'rgba(52, 52, 52, 0.45)',
+        justifyContent: 'center',
+        width: '95%',
+        height: '5%',
+        alignItems: 'center',
     },
     text: {
         color: '#ffffff',
@@ -197,33 +225,46 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 10
     },
+    descBox: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff',
+        fontSize: 18,
+        fontFamily: 'System',
+        fontWeight: 'bold'
+    },
     imageWrapper: {
-        width: 280,
-        height: 280,
+        width: '80%',
+        height: '50%',
         padding: 10,
-        borderColor: '#000000',
-        borderWidth: 5,
+        borderColor: '#8FD14F',
+        borderWidth: 6,
         borderStyle: 'dashed',
         marginTop: 40,
-        marginBottom: 10,
+        marginBottom: 20,
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center'
     },
     imageContainer: {
-        width: 250,
-        height: 250,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         position: 'absolute',
+        alignItems: 'center',
         top: 10,
         left: 10,
         bottom: 10,
         right: 10
     },
     predictionWrapper: {
-        height: 100,
-        width: '100%',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        // backgroundColor: '#767676',
+        backgroundColor: 'rgba(52, 52, 52, 0.45)',
+        justifyContent: 'center',
+        width: '80%',
+        height: '13%',
+        alignItems: 'center',
     }
 })
 
