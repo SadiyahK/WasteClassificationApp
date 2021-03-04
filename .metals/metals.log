@@ -106,3 +106,29 @@ INFO: Unsupported notification method: $/setTraceNotification
 [0m2021.02.27 15:47:05 INFO  time: initialize in 5.64s[0m
 [0m2021.02.27 15:47:14 WARN  Build server is not auto-connectable.[0m
 [0m2021.02.27 15:47:14 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.03.01 14:33:38 INFO  Started: Metals version 0.10.0 in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app' for client vscode 1.53.2.[0m
+[0m2021.03.01 14:33:43 INFO  time: initialize in 4.42s[0m
+[0m2021.03.01 14:33:49 WARN  Build server is not auto-connectable.[0m
+[0m2021.03.01 14:33:49 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.03.01 21:13:48 INFO  Started: Metals version 0.10.0 in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app' for client vscode 1.53.2.[0m
+[0m2021.03.01 21:13:53 INFO  time: initialize in 4.52s[0m
+[0m2021.03.01 21:14:01 WARN  Build server is not auto-connectable.[0m
+[0m2021.03.01 21:14:01 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.03.01 21:58:17 INFO  shutting down Metals[0m
+[0m2021.03.02 14:52:12 INFO  Started: Metals version 0.10.0 in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app' for client vscode 1.53.2.[0m
+[0m2021.03.02 14:52:15 INFO  time: initialize in 2.88s[0m
+[0m2021.03.02 14:52:16 WARN  Build server is not auto-connectable.[0m
+[0m2021.03.02 14:52:16 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.03.03 16:15:33 INFO  Started: Metals version 0.10.0 in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app' for client vscode 1.53.2.[0m
+[0m2021.03.03 16:15:37 INFO  time: initialize in 4.41s[0m
+[0m2021.03.03 16:15:43 WARN  Build server is not auto-connectable.[0m
+[0m2021.03.03 16:15:43 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.03.04 12:02:50 INFO  Started: Metals version 0.10.0 in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app' for client vscode 1.53.2.[0m
+[0m2021.03.04 12:02:52 INFO  time: initialize in 2.35s[0m
+[0m2021.03.04 12:02:59 WARN  Build server is not auto-connectable.[0m
+[0m2021.03.04 12:02:59 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.03.04 13:54:26 INFO  shutting down Metals[0m
+[0m2021.03.04 13:56:54 INFO  Started: Metals version 0.10.0 in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app' for client vscode 1.53.2.[0m
+[0m2021.03.04 13:56:56 INFO  time: initialize in 2.31s[0m
+[0m2021.03.04 13:57:04 WARN  Build server is not auto-connectable.[0m
+[0m2021.03.04 13:57:04 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
