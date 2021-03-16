@@ -80,7 +80,10 @@ export default class SigninScreen extends Component {
                 </TouchableOpacity>
                 <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signup')}>
                     Don't have an account? Click here to sign up
-                </Text>                          
+                </Text>
+                <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
+                    Forgot your password? Reset here
+                </Text>                           
                 </View>
             </ImageBackground>                       
       </View>

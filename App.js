@@ -9,6 +9,7 @@ import SettingsScreen from './screens/SettingsScreen'
 import ClassifierScreen from './screens/ClassifierScreen'
 import SignupScreen from './screens/SignupScreen'
 import SigninScreen from './screens/SigninScreen'
+import ResetPassword from './screens/ResetPasswordScreen'
 
 const HomeStack = createStackNavigator();
 
@@ -59,6 +60,7 @@ function AccountStackScreen() {
       <AccountStack.Screen name="Signin" component={SigninScreen} options={{ headerTitle: "Sign In" }}/>
       <AccountStack.Screen name="Profile" component={ProfileScreen} options={{ headerTitle: "Profile" }}/>
       <AccountStack.Screen name="Settings" component={SettingsScreen} options={{ headerTitle: "Settings" }}/>
+      <AccountStack.Screen name="ResetPassword" component={ResetPassword} options={{ headerTitle: "Update" }}/>
     </AccountStack.Navigator>
   );
 }
