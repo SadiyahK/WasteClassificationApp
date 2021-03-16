@@ -8,7 +8,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import ClassifierScreen from './screens/ClassifierScreen'
 import SignupScreen from './screens/SignupScreen'
-import LoginScreen from './screens/LoginScreen'
+import SigninScreen from './screens/SigninScreen'
 
 const HomeStack = createStackNavigator();
 
@@ -56,7 +56,7 @@ function AccountStackScreen() {
       ),
     }}>
       <AccountStack.Screen name="Signup" component={SignupScreen} options={{ headerTitle: "Sign Up" }}/>
-      <AccountStack.Screen name="Login" component={LoginScreen} options={{ headerTitle: "Sign In" }}/>
+      <AccountStack.Screen name="Signin" component={SigninScreen} options={{ headerTitle: "Sign In" }}/>
       <AccountStack.Screen name="Profile" component={ProfileScreen} options={{ headerTitle: "Profile" }}/>
       <AccountStack.Screen name="Settings" component={SettingsScreen} options={{ headerTitle: "Settings" }}/>
     </AccountStack.Navigator>

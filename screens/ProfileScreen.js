@@ -14,7 +14,7 @@ export default class ProfileScreen extends Component {
 
   signOut = () => {
     firebase.auth().signOut().then(() => {
-      this.props.navigation.navigate('Login')
+      this.props.navigation.navigate('Signin')
     })
     .catch(error => this.setState({ errorMessage: error.message }))
   }  

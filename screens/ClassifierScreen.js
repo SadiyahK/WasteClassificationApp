@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View, StatusBar, ActivityIndicator, TouchableOpacity, Image, Button} from 'react-native'
 import * as tf from '@tensorflow/tfjs'
 import Constants from 'expo-constants'
+import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions'
 import * as jpeg from 'jpeg-js'
-import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect }  from 'react';
 import { fetch, bundleResourceIO } from '@tensorflow/tfjs-react-native';
 import { color } from 'react-native-reanimated'
 import firebase from '../database/firebase';
+
 
 class ClassifierScreen extends React.Component {
     state = {
@@ -16,18 +17,16 @@ class ClassifierScreen extends React.Component {
         predictions: null,
         image: null,
         results: null,
-        
     }
 
     async componentDidMount() {
 
         console.log("[+] Application started")
-        //Wait for tensorflow module to be ready
-        await tf.ready();
-        this.setState({
-            isTfReady: true
-        })
+        
+        await tf.ready(); //Wait for tensorflow module to be ready
+        this.setState({ isTfReady: true })
         console.log("[+] Loading custom waste classification model")
+
         //Replce model.json and group1-shard.bin with your own custom model
         const modelJson = await require("../assets/model/model.json");
         const modelWeight = await require("../assets/model/group1-shard1of1.bin");
@@ -39,12 +38,12 @@ class ClassifierScreen extends React.Component {
     }
 
     getPermissionAsync = async () => {
-        if (Constants.platform.ios) {
-            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        if (Platform.OS !== 'web') {
+            const { status } = await ImagePicker.requestCameraPermissionsAsync();
             if (status !== 'granted') {
-                alert('Sorry, we need camera roll permissions to make this work!')
+              alert('Sorry, we need camera  permissions to make this work!');
             }
-        }
+          }
     }
 
     classifyImage = async () => {
@@ -66,10 +65,7 @@ class ClassifierScreen extends React.Component {
             p.sort()
             this.setState({ predictions })
             this.setState({results})
-            this.writeUserData(results[0])
-            // for(i = 0; i < 3; i++){
-            //     this.writeUserData(results[i])
-            // }
+            //firebase.writeUserData(results[0])
         } catch (error) {
             console.log(error)
         }
@@ -78,7 +74,6 @@ class ClassifierScreen extends React.Component {
     imageToTensor(rawImageData) {
         const TO_UINT8ARRAY = true
         const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY)
-        // Drop the alpha channel info for mobilenet
         const buffer = new Uint8Array(width * height * 3)
         let offset = 0 // offset into original data
         for (let i = 0; i < buffer.length; i += 3) {
@@ -98,45 +93,23 @@ class ClassifierScreen extends React.Component {
         return expanded_img.toFloat().div(tf.scalar(127)).sub(tf.scalar(1));
     }
 
-    selectImage = async () => {
-        try {
-            let response = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [4, 3]
-            })
-
-            if (!response.cancelled) {
-                const source = { uri: response.uri }
-                this.setState({ image: source })
+    pickImage = async () => {
+        try{
+            let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            base64: false
+            });        
+            if (!result.cancelled) {
+                const source = { uri: result.uri }
+                this.setState({
+                    image:source
+                });
                 this.classifyImage()
             }
-        } catch (error) {
+        }catch (error) {
             console.log(error)
         }
-    }
-
-    writeUserData(data) {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-              console.log('user logged')
-              var date = new Date().getDate(); //To get the Current Date
-              var month = new Date().getMonth() + 1; //To get the Current Month
-              var year = new Date().getFullYear(); //To get the Current Year
-              var hours = new Date().getHours(); //Current Hours
-              var min = new Date().getMinutes(); //Current Minutes
-              var sec = new Date().getSeconds(); //Current Seconds
-              var fullDate = date + '/' + month + '/' + year 
-              + ' ' + hours + ':' + min + ':' + sec
-      
-              const userId = firebase.auth().currentUser.uid
-              firebase.database().ref('users/' + userId).update({
-                fullDate: data,
-              })
-              .then(() => console.log('Data updated.'));
-            }
-         });
-      }
+    };
 
     reset(event) {
         this.setState({ predictions: null})
@@ -149,44 +122,51 @@ class ClassifierScreen extends React.Component {
 
         return (
             <View style={styles.container}>
-                <StatusBar barStyle='light-content' />
-                <View style={styles.loadingContainer}>
-                    <Text style={styles.descBox}>Select an image from your gallery to classify!</Text>
-                </View>
-                <TouchableOpacity
-                    style={styles.imageWrapper}
-                    onPress={isModelReady ? this.selectImage : undefined}>
-                    {image && <Image source={image} style={styles.imageContainer} />}
-                    {!isModelReady? 
-                    (<Text style={styles.commonTextStyles}>Waiting for Model to Load...</Text>)  : undefined}
-                    {isModelReady && !image && (
-                        <Text style={styles.commonTextStyles}>Tap to choose an image</Text>
-                    )}
-                </TouchableOpacity>
-                <View style={styles.predictionWrapper}>
-                    {!image && (
-                        <Text style={styles.commonTextWhite}>
-                            Predictions... </Text>
-                    )}
-                    {isModelReady && image && (
-                        <Text style={styles.commonTextWhite}>
-                            Predictions: {predictions ? '' : 'Predicting...'}
-                        </Text>
-                    )}
-                    {isModelReady &&
-                    predictions &&
-                    results &&
-                    <Text style={styles.commonTextWhite}>
-                        1st: {results[0]}{"  "} --Probability: {(predictions.dataSync()[5].toPrecision(4))}{"\n"}
-                        2nd: {(results[1])}{"  "} --Probability: {(predictions.dataSync()[4].toPrecision(4))}{"\n"}
-                        3rd: {(results[2])}{"  "} --Probability: {(predictions.dataSync()[3].toPrecision(4))}                       
-                    </Text>}
-                </View>
-                <TouchableOpacity onPress={(e) => this.reset(e)} style={styles.appButtonContainer}>
-                <Text style={ styles.button } onPress={(e) => this.reset(e)}>Reset</Text>
-                </TouchableOpacity>
                 
+            {/* Description text */}
+            <View style={styles.loadingContainer}>
+                <Text style={styles.descBox}>Select an image from your gallery to classify!</Text>
             </View>
+
+            {/* pick + display image */}
+            <TouchableOpacity
+                style={styles.imageWrapper}
+                onPress={isModelReady ? this.pickImage : undefined}>
+                {image && <Image source={image} style={styles.imageContainer} />}
+                {!isModelReady? 
+                (<Text style={styles.commonTextStyles}>Waiting for Model to Load...</Text>)  : undefined}
+                {isModelReady && !image && (
+                    <Text style={styles.commonTextStyles}>Tap to open camera</Text>
+                )}
+            </TouchableOpacity>
+
+            {/* Display predictions */}      
+            <View style={styles.predictionWrapper}>
+                {!image && (
+                    <Text style={styles.commonTextWhite}>
+                        Predictions... </Text>
+                )}
+                {isModelReady && image && (
+                    <Text style={styles.commonTextWhite}>
+                        Predictions: {predictions ? '' : 'Predicting...'}
+                    </Text>
+                )}
+                {isModelReady &&
+                predictions &&
+                results &&
+                <Text style={styles.commonTextWhite}>
+                    1st: {results[0]}{"  "} --Probability: {(predictions.dataSync()[5].toPrecision(4))}{"\n"}
+                    2nd: {(results[1])}{"  "} --Probability: {(predictions.dataSync()[4].toPrecision(4))}{"\n"}
+                    3rd: {(results[2])}{"  "} --Probability: {(predictions.dataSync()[3].toPrecision(4))}                       
+                </Text>}
+            </View>
+
+            {/* Reset button */}
+            <TouchableOpacity onPress={(e) => this.reset(e)} style={styles.appButtonContainer}>
+            <Text style={ styles.button } onPress={(e) => this.reset(e)}>Reset</Text>
+            </TouchableOpacity>
+            
+        </View>
         )
     }
 }
@@ -205,7 +185,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 12,
 
-    },    
+    },  
     button:{
         color: '#FFFEF2',
         width: '20%',
@@ -226,20 +206,11 @@ const styles = StyleSheet.create({
     },
     loadingContainer: {
         marginTop: 10,
-        // backgroundColor: '#767676',
         backgroundColor: 'rgba(52, 52, 52, 0.45)',
         justifyContent: 'center',
         width: '95%',
         height: '5%',
         alignItems: 'center',
-    },
-    text: {
-        color: '#ffffff',
-        fontSize: 16
-    },
-    loadingModelContainer: {
-        flexDirection: 'row',
-        marginTop: 10
     },
     descBox: {
         justifyContent: 'center',

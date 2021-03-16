@@ -42,7 +42,7 @@ export default class SignupScreen extends Component {
           email: '', 
           password: ''
         })
-        this.props.navigation.navigate('Login')
+        this.props.navigation.navigate('Signin')
       })
       .catch(error => this.setState({ errorMessage: error.message }))      
     }
@@ -89,7 +89,7 @@ export default class SignupScreen extends Component {
             <TouchableOpacity onPress={() => this.registerUser()} style={stylesheet.appButtonContainer}>
                 <Text style={ stylesheet.button } onPress={() => this.registerUser()}>Sign Up</Text>
             </TouchableOpacity>
-            <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Login')}>
+            <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signin')}>
                 Already Registered? Click here to sign in
             </Text>  
         </View>
