@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect }  from 'react';
 import { fetch, bundleResourceIO } from '@tensorflow/tfjs-react-native';
 import { color } from 'react-native-reanimated'
+import firebase from '../database/firebase';
 
 class ClassifierScreen extends React.Component {
     state = {
@@ -14,7 +15,8 @@ class ClassifierScreen extends React.Component {
         isModelReady: false,
         predictions: null,
         image: null,
-        results: null
+        results: null,
+        
     }
 
     async componentDidMount() {
@@ -64,6 +66,10 @@ class ClassifierScreen extends React.Component {
             p.sort()
             this.setState({ predictions })
             this.setState({results})
+            this.writeUserData(results[0])
+            // for(i = 0; i < 3; i++){
+            //     this.writeUserData(results[i])
+            // }
         } catch (error) {
             console.log(error)
         }
@@ -110,11 +116,33 @@ class ClassifierScreen extends React.Component {
         }
     }
 
+    writeUserData(data) {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              console.log('user logged')
+              var date = new Date().getDate(); //To get the Current Date
+              var month = new Date().getMonth() + 1; //To get the Current Month
+              var year = new Date().getFullYear(); //To get the Current Year
+              var hours = new Date().getHours(); //Current Hours
+              var min = new Date().getMinutes(); //Current Minutes
+              var sec = new Date().getSeconds(); //Current Seconds
+              var fullDate = date + '/' + month + '/' + year 
+              + ' ' + hours + ':' + min + ':' + sec
+      
+              const userId = firebase.auth().currentUser.uid
+              firebase.database().ref('users/' + userId).update({
+                fullDate: data,
+              })
+              .then(() => console.log('Data updated.'));
+            }
+         });
+      }
+
     reset(event) {
         this.setState({ predictions: null})
         this.setState({results: null})
         this.setState({image: null})
-      }
+    }
 
     render() {
         const { isTfReady, isModelReady, predictions, image, wasteDetector, results} = this.state
@@ -124,18 +152,6 @@ class ClassifierScreen extends React.Component {
                 <StatusBar barStyle='light-content' />
                 <View style={styles.loadingContainer}>
                     <Text style={styles.descBox}>Select an image from your gallery to classify!</Text>
-                    {/* <Text style={styles.commonTextStyles}>
-                        TFJS ready? {isTfReady ? <Text>✅</Text> : ''}
-                    </Text> */}
-
-                    {/* <View style={styles.loadingModelContainer}>
-                        <Text style={styles.commonTextStyles}>Model ready? </Text>
-                        {isModelReady ? (
-                            <Text>✅</Text>
-                        ) : (
-                            <ActivityIndicator size='small' />
-                        )}
-                    </View> */}
                 </View>
                 <TouchableOpacity
                     style={styles.imageWrapper}
