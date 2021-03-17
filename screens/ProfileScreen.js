@@ -27,11 +27,10 @@ export default class ProfileScreen extends Component {
     }    
     return (
         <View>
-            <ImageBackground
-            style={stylesheet.imageContainer}
-            source={require('../assets/recycle.jpg')}>
+        <View style={stylesheet.topContainer}>
+          <Image source={require('../assets/p-trans.png')} style={stylesheet.imageIcon}/>
+        </View>
       <View style={stylesheet.container}>
-          {/* <Image source={require('../assets/third.jpg')} style={styles.imageContainer} /> */}
           <View style={stylesheet.inputStyle}>
             <Text style={stylesheet.text}>Name: {this.state.displayName}</Text>
           </View>
@@ -41,12 +40,11 @@ export default class ProfileScreen extends Component {
           <View style={stylesheet.inputStyle}>
             <Text style={stylesheet.text}>Password: **********</Text>
           </View>
+          <Button title="Reset Password" onPress={() => this.props.navigation.navigate('ResetPassword')} />
         <TouchableOpacity onPress={() => this.signOut()} style={stylesheet.appButtonContainer}>
             <Text style={ stylesheet.button } onPress={() => this.signOut()}>Logout</Text>
         </TouchableOpacity>
-      </View>
-      {/* {firebase.readUserData()} */}
-      </ImageBackground>                       
+      </View>                      
       </View>
     );
   }

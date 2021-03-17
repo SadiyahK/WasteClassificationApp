@@ -59,8 +59,26 @@ export default StyleSheet.create({
         height: '50%',
         width: '90%',
         marginHorizontal: '5%',
-        backgroundColor: 'rgba(52, 52, 52, 0.65)',
+        backgroundColor: 'rgba(52, 52, 52, 0.55)',
         alignItems: 'center',
         borderRadius: 5,
       },
+      imageIcon: {
+        width: "40%", 
+        height: "80%", 
+        borderRadius: 200 / 2,
+        //backgroundColor: '#fff',
+        //borderColor: 'rgba(52, 52, 52, 0.65)',
+      },
+      topContainer:{
+        flexDirection: "column",
+        justifyContent: "center",
+        height: '35%',
+        width: '100%',
+        //marginHorizontal: '5%',
+        //backgroundColor: '#fff',
+        alignItems: 'center',
+        paddingTop: 15,
+        paddingBottom: 15,
+      }
 });
