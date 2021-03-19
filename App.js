@@ -9,6 +9,7 @@ import SettingsScreen from './screens/SettingsScreen'
 import ClassifierScreen from './screens/ClassifierScreen'
 import SignupScreen from './screens/SignupScreen'
 import SigninScreen from './screens/SigninScreen'
+import ResetPassword from './screens/ResetPasswordScreen'
 
 const HomeStack = createStackNavigator();
 
@@ -51,14 +52,15 @@ function AccountStackScreen() {
         fontFamily: 'System',
         fontSize: 35,
       },
-      headerLeft: () => (
-        <Icon style={{ marginLeft: 85 }} name="ios-leaf" color={'#228C22'} size={40}/>
-      ),
+      // headerLeft: () => (
+      //   <Icon style={{ marginLeft: 85 }} name="ios-leaf" color={'#228C22'} size={40}/>
+      // ),
     }}>
       <AccountStack.Screen name="Signup" component={SignupScreen} options={{ headerTitle: "Sign Up" }}/>
       <AccountStack.Screen name="Signin" component={SigninScreen} options={{ headerTitle: "Sign In" }}/>
       <AccountStack.Screen name="Profile" component={ProfileScreen} options={{ headerTitle: "Profile" }}/>
       <AccountStack.Screen name="Settings" component={SettingsScreen} options={{ headerTitle: "Settings" }}/>
+      <AccountStack.Screen name="Reset Password" component={ResetPassword} options={{ headerTitle: "Reset Password" }}/>
     </AccountStack.Navigator>
   );
 }

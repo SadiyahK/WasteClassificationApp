@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, TouchableOpacity , ImageBackground} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, TouchableOpacity , ImageBackground, Image} from 'react-native';
 import firebase from '../database/firebase';
 import stylesheet from '../styles/stylesheet.js'
 
@@ -22,7 +22,7 @@ export default class SignupScreen extends Component {
   }
 
   registerUser = () => {
-    if(this.state.email === '' && this.state.password === '') {
+    if(this.state.email === '' || this.state.password === '' || this.state.displayName === '') {
       Alert.alert('Enter details to signup!')
     } else {
       this.setState({
@@ -35,6 +35,7 @@ export default class SignupScreen extends Component {
         res.user.updateProfile({
           displayName: this.state.displayName
         })
+        firebase.auth().signOut() 
         console.log('User registered successfully!')
         this.setState({
           isLoading: false,
@@ -43,6 +44,7 @@ export default class SignupScreen extends Component {
           password: ''
         })
         this.props.navigation.navigate('Signin')
+        Alert.alert('Sign Up Successful!')
       })
       .catch(error => this.setState({ errorMessage: error.message }))      
     }
@@ -57,11 +59,10 @@ export default class SignupScreen extends Component {
       )
     }    
     return (
-
     <View>
-        <ImageBackground
-        style={stylesheet.imageContainer}
-        source={require('../assets/recycle.jpg')}>
+    <View style={stylesheet.topContainer}>
+      <Image source={require('../assets/p-trans.png')} style={stylesheet.imageIcon}/>
+    </View>
         <View style={stylesheet.container}>
             <TextInput
                 style={stylesheet.inputStyle}
@@ -72,8 +73,8 @@ export default class SignupScreen extends Component {
             />      
             <TextInput
                 style={stylesheet.inputStyle}
-                placeholderTextColor= '#fff'
                 placeholder="Email"
+                placeholderTextColor= '#fff'
                 value={this.state.email}
                 onChangeText={(val) => this.updateInputVal(val, 'email')}
             />
@@ -93,7 +94,6 @@ export default class SignupScreen extends Component {
                 Already Registered? Click here to sign in
             </Text>  
         </View>
-        </ImageBackground>                       
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, TouchableOpacity, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import firebase from '../database/firebase';
 import stylesheet from '../styles/stylesheet.js'
 
@@ -22,7 +22,7 @@ export default class SigninScreen extends Component {
   }
 
   userLogin = () => {
-    if(this.state.email === '' && this.state.password === '') {
+    if(this.state.email === '' || this.state.password === '') {
       Alert.alert('Enter details to sign in!')
     } else {
       this.setState({
@@ -55,9 +55,9 @@ export default class SigninScreen extends Component {
     }    
     return (
         <View>
-            <ImageBackground
-            style={stylesheet.imageContainer}
-            source={require('../assets/recycle.jpg')}>
+          <View style={stylesheet.topContainer}>
+            <Image source={require('../assets/p-trans.png')} style={stylesheet.imageIcon}/>
+          </View>
             <View style={stylesheet.container}>  
                 <TextInput
                     style={stylesheet.inputStyle}
@@ -80,9 +80,11 @@ export default class SigninScreen extends Component {
                 </TouchableOpacity>
                 <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signup')}>
                     Don't have an account? Click here to sign up
+                </Text>
+                <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
+                    Forgot your password? Reset here
                 </Text>                          
                 </View>
-            </ImageBackground>                       
       </View>
     );
   }
