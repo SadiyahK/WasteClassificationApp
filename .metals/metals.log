@@ -164,3 +164,14 @@ Mar 16, 2021 10:58:10 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint noti
 INFO: Unsupported notification method: $/setTraceNotification
 Mar 16, 2021 11:01:01 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFO: Unsupported notification method: $/setTraceNotification
+[0m2021.03.16 23:19:38 INFO  shutting down Metals[0m
+[0m2021.03.17 17:14:48 INFO  Started: Metals version 0.10.0 in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app' for client vscode 1.54.3.[0m
+[0m2021.03.17 17:14:52 INFO  time: initialize in 4.88s[0m
+[0m2021.03.17 17:14:58 WARN  Build server is not auto-connectable.[0m
+[0m2021.03.17 17:14:58 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+[0m2021.03.19 16:22:42 INFO  Started: Metals version 0.10.0 in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app' for client vscode 1.54.3.[0m
+[0m2021.03.19 16:22:46 INFO  time: initialize in 3.52s[0m
+[0m2021.03.19 16:23:03 WARN  Build server is not auto-connectable.[0m
+[0m2021.03.19 16:23:03 WARN  no build tool detected in workspace 'C:\Users\Sadiy\OneDrive\Documents\rn-classifier-app'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+Mar 19, 2021 6:00:04 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTraceNotification
