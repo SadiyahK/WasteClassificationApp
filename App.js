@@ -1,3 +1,7 @@
+/**
+ * App: controls navigation of application and starts up the app.
+ */
+
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -5,20 +9,19 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons'; 
 
 import ProfileScreen from './screens/ProfileScreen'
-import SettingsScreen from './screens/SettingsScreen'
 import ClassifierScreen from './screens/ClassifierScreen'
 import SignupScreen from './screens/SignupScreen'
 import SigninScreen from './screens/SigninScreen'
 import ResetPassword from './screens/ResetPasswordScreen'
 
+// Navigation stack for home screen consisting of Classifier.
 const HomeStack = createStackNavigator();
-
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: '#8FD14F',//'#228C22',
+        backgroundColor: '#8FD14F',
         height: 100
       },
       headerTintColor: '#FFFEF2',
@@ -36,14 +39,14 @@ function HomeStackScreen() {
   );
 }
 
+// Navigation stack for home screen consisting of user authentication.
 const AccountStack = createStackNavigator();
-
 function AccountStackScreen() {
   return (
     <AccountStack.Navigator       
     screenOptions={{
       headerStyle: {
-        backgroundColor: '#8FD14F',//'#228C22',
+        backgroundColor: '#8FD14F',
         height: 100
       },
       headerTintColor: '#FFFEF2',
@@ -52,21 +55,17 @@ function AccountStackScreen() {
         fontFamily: 'System',
         fontSize: 35,
       },
-      // headerLeft: () => (
-      //   <Icon style={{ marginLeft: 85 }} name="ios-leaf" color={'#228C22'} size={40}/>
-      // ),
     }}>
       <AccountStack.Screen name="Signup" component={SignupScreen} options={{ headerTitle: "Sign Up" }}/>
       <AccountStack.Screen name="Signin" component={SigninScreen} options={{ headerTitle: "Sign In" }}/>
       <AccountStack.Screen name="Profile" component={ProfileScreen} options={{ headerTitle: "Profile" }}/>
-      <AccountStack.Screen name="Settings" component={SettingsScreen} options={{ headerTitle: "Settings" }}/>
-      <AccountStack.Screen name="Reset Password" component={ResetPassword} options={{ headerTitle: "Reset Password" }}/>
+      <AccountStack.Screen name="ResetPassword" component={ResetPassword} options={{ headerTitle: "Reset Password" }}/>
     </AccountStack.Navigator>
   );
 }
 
+// bottom tab navigation to move between above stacks
 const Tab = createBottomTabNavigator();
-
 export default function App() {
   return (
     <NavigationContainer>
@@ -76,7 +75,7 @@ export default function App() {
           activeTintColor:  '#228C22',
           inactiveTintColor: '#FFFEF2',
           style: {
-            backgroundColor: '#8FD14F',//'#228C22',
+            backgroundColor: '#8FD14F',
             position: 'absolute',
             borderTopWidth: 0,
             elevation: 0,

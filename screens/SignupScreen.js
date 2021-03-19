@@ -1,5 +1,8 @@
+/**
+ * SignupScreen: Handles user authentication of new users.
+ */
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, TouchableOpacity , ImageBackground, Image} from 'react-native';
+import {Text, View, TextInput, Alert, ActivityIndicator, TouchableOpacity, Image} from 'react-native';
 import firebase from '../database/firebase';
 import stylesheet from '../styles/stylesheet.js'
 
@@ -8,93 +11,95 @@ export default class SignupScreen extends Component {
   constructor() {
     super();
     this.state = { 
+      password: '',
+      isLoading: false,
       displayName: '',
       email: '', 
-      password: '',
-      isLoading: false
     }
   }
 
-  updateInputVal = (val, prop) => {
+  // Take each input from each field and store
+  // it in the appropriate placeholder.
+  onTextInput = (inputText, prop) => {
     const state = this.state;
-    state[prop] = val;
+    state[prop] = inputText;
     this.setState(state);
   }
 
-  registerUser = () => {
+  // Handles user authentication after user has entered details for every textbox. 
+  // Communicates with firebase to create account and navigates to sign-in screen.
+  onSignUpClick = () => {
+    // Validate input
     if(this.state.email === '' || this.state.password === '' || this.state.displayName === '') {
       Alert.alert('Enter details to signup!')
-    } else {
-      this.setState({
-        isLoading: true,
-      })
-      firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+    } 
+    else {
+      this.setState({ isLoading: true })
+      // Communicate with firebase
+      firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((res) => {
-        res.user.updateProfile({
-          displayName: this.state.displayName
-        })
+        res.user.updateProfile({ displayName: this.state.displayName })
         firebase.auth().signOut() 
         console.log('User registered successfully!')
-        this.setState({
-          isLoading: false,
-          displayName: '',
-          email: '', 
-          password: ''
-        })
+        this.setState({ email: '', isLoading: false, password: '', displayName: '' })
+        // If successful...
         this.props.navigation.navigate('Signin')
-        Alert.alert('Sign Up Successful!')
-      })
-      .catch(error => this.setState({ errorMessage: error.message }))      
+        Alert.alert('Sign Up Successful!') })
+      .catch(error => Alert.alert('An error occurred. Please try again later.'))      
     }
   }
 
   render() {
+    // If authentication is in progress...
     if(this.state.isLoading){
       return(
         <View style={stylesheet.preloader}>
           <ActivityIndicator size="large" color="#9E9E9E"/>
         </View>
       )
-    }    
+    } 
+    // otherwise, allow user to sign up   
     return (
     <View>
-    <View style={stylesheet.topContainer}>
-      <Image source={require('../assets/p-trans.png')} style={stylesheet.imageIcon}/>
-    </View>
-        <View style={stylesheet.container}>
-            <TextInput
-                style={stylesheet.inputStyle}
-                placeholder="Name"
-                placeholderTextColor= '#fff'
-                value={this.state.displayName}
-                onChangeText={(val) => this.updateInputVal(val, 'displayName')}
-            />      
-            <TextInput
-                style={stylesheet.inputStyle}
-                placeholder="Email"
-                placeholderTextColor= '#fff'
-                value={this.state.email}
-                onChangeText={(val) => this.updateInputVal(val, 'email')}
-            />
-            <TextInput
-                style={stylesheet.inputStyle}
-                placeholder="Password"
-                placeholderTextColor= '#fff'
-                value={this.state.password}
-                onChangeText={(val) => this.updateInputVal(val, 'password')}
-                maxLength={15}
-                secureTextEntry={true}
-            />   
-            <TouchableOpacity onPress={() => this.registerUser()} style={stylesheet.appButtonContainer}>
-                <Text style={ stylesheet.button } onPress={() => this.registerUser()}>Sign Up</Text>
-            </TouchableOpacity>
-            <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signin')}>
-                Already Registered? Click here to sign in
-            </Text>  
-        </View>
+      {/* Top Icon display */}
+      <View style={stylesheet.topContainer}>
+        <Image source={require('../assets/p-trans.png')} style={stylesheet.imageIcon}/>
       </View>
+      {/* UI for input fields */}
+      <View style={stylesheet.container}>
+        <TextInput
+          style={stylesheet.inputStyle}
+          placeholder="Name"
+          placeholderTextColor= '#fff'
+          value={this.state.displayName}
+          onChangeText={(val) => this.onTextInput(val, 'displayName')}
+        />  
+        <TextInput
+          style={stylesheet.inputStyle}
+          placeholder="Email"
+          placeholderTextColor= '#fff'
+          value={this.state.email}
+          onChangeText={(val) => this.onTextInput(val, 'email')}
+        />
+        <TextInput
+          style={stylesheet.inputStyle}
+          placeholder="Password"
+          placeholderTextColor= '#fff'
+          value={this.state.password}
+          onChangeText={(val) => this.onTextInput(val, 'password')}
+          maxLength={15}
+          secureTextEntry={true}
+        />  
+        {/* Navigation options: sign up and sign in */}
+        <TouchableOpacity onPress={() => this.onSignUpClick()} style={stylesheet.appButtonContainer}>
+          <Text style={ stylesheet.button } onPress={() => this.onSignUpClick()}>Sign Up</Text>
+        </TouchableOpacity>
+        <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signin')}>
+          Already Registered? Click here to sign in
+        </Text>  
+      </View>
+    </View>
     );
   }
+
 }
