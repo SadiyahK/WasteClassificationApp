@@ -51,6 +51,8 @@ class ClassifierScreen extends React.Component {
             const response = await fetch(imageAssetPath.uri, {}, { isBinary: true })
             const rawImageData = await response.arrayBuffer()
             const imageTensor = this.convertImageToTensor(rawImageData)
+            // const pred = await this.wasteDetector.predict_classes(imageTensor) //TRY THIS TOMORROW!
+            // console.log(pred)
             const predictions = await this.wasteDetector.predict(imageTensor)
             this.getPrediction(predictions)
         } catch (error) {
@@ -70,6 +72,7 @@ class ClassifierScreen extends React.Component {
     getPrediction(predictions){
         // format predictions to string classes
         const classes = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash']
+        // {'cardboard': 0, 'glass': 1, 'metal': 2, 'paper': 3, 'plastic': 4, 'trash': 5}
         const orderedClasses = this.mapArrays(classes, predictions.dataSync());
         predictions.dataSync().sort()
         this.setState({ predictions })
