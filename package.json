@@ -5,7 +5,14 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ]
   },
   "dependencies": {
     "@react-native-community/async-storage": "~1.12.0",
@@ -19,7 +26,15 @@
     "@tensorflow/tfjs-converter": "^1.7.4",
     "@tensorflow/tfjs-core": "^2.8.5",
     "@tensorflow/tfjs-react-native": "^0.5.0",
+    "@testing-library/jest-native": "^4.0.0",
+    "@testing-library/react": "^11.2.5",
+    "@types/jest": "^26.0.21",
+    "babel-jest": "^25.5.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "core-js": "^3.8.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "expo": "^39.0.5",
     "expo-camera": "~9.0.0",
     "expo-constants": "~9.2.0",
@@ -28,8 +43,10 @@
     "expo-permissions": "~9.3.0",
     "expo-status-bar": "^1.0.3",
     "firebase": "^8.2.9",
+    "jest": "^25.5.4",
+    "jest-expo": "^40.0.2",
     "jpeg-js": "^0.4.3",
-    "react": "16.13.1",
+    "react": "^16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-binary-file": "^1.1.0",
@@ -48,7 +65,10 @@
     "react-navigation-tabs": "^2.11.0"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "~7.9.0",
+    "@testing-library/react-native": "^7.2.0",
+    "enzyme-to-json": "^3.6.1",
+    "react-test-renderer": "^16.13.1"
   },
   "private": true
 }
