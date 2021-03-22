@@ -1,68 +1,104 @@
-
 import React from 'react';
-import create from "react-test-renderer";
-import ReactDOM from 'react-dom'
-import renderer from "react-test-renderer";
-//import { render, fireEvent, screen } from '@testing-library/react'
-import { render } from '@testing-library/react-native'
-import { shallow } from 'enzyme'
+import { render, fireEvent, act } from '@testing-library/react-native'
 
 import SigninScreen from '../screens/SigninScreen';
+import { Alert } from 'react-native'
 
+//mock alert
+jest.mock('react-native', () => {
+    const RN = jest.requireActual('react-native')
 
+    return Object.setPrototypeOf(
+        {
+            Alert: {
+                ...RN.Alert,
+                alert: jest.fn(),
+            },
+        },
+        RN,
+    )
+})
 
-// check placeholder text of email and password
-// check alert pops up when one or more text fields is left blank
-// check screen navigates to profile when input is correct and the sign in button is pressed
-// check navigation to resetPass when link clicked
-// check navigation to sign-up when link clicked.
-{/* <input> element value should be empty (2x of these)
-should update the state when a value is input
-should display an error when no value is input */}
+//mock firebase
+jest.mock('firebase', () => {
+    return {
+    initializeApp: jest.fn(),
+    auth: () => ({
+        signInWithEmailAndPassword: () => Promise.resolve(),
+      }),
+    };
+  });
+//   jest.mock('../database/firebase', () => {
+//     const fire = {
+//       firebase: {
+//         auth: () => ({
+//           sendPasswordResetEmail: () => Promise.resolve(),
+//         }),
+//       },
+//     }
+//     return fire
+//   })
 
 it("renders default elements", () =>{
     const { getAllByText, getByPlaceholderText } = render(<SigninScreen />)
 
     expect(getAllByText("Sign In").length).toBe(1)
+    //if placeholder text is shown then that means input fields are empty as expected
     getByPlaceholderText("Email")
     getByPlaceholderText("Password")
 })
 
+it("shows invalid input message", ()=>{
+    const { getByTestId, getByText } = render(<SigninScreen />)
 
-// it('renders without crashing', () =>{
-//     shallow(<SigninScreen />)
-// })
+    fireEvent.press(getByTestId("signIn.Button"))
+    expect(Alert.alert).toHaveBeenCalled()
+})
 
-// test('something'), () =>{
-//     expect('something').to
-// })
+it("shows invalid input message when only password input", ()=>{
+    const { getByTestId, getByText } = render(<SigninScreen />)
 
-// const navigation = {
-//     navigation: jest.fn()
-// }
-// const tree = renderer.create(<SigninScreen navigation={ navigation } />).toJSON();
+    fireEvent.changeText(getByTestId("signIn.PasswordInput"), 'test123')
+    fireEvent.press(getByTestId("signIn.Button"))
+    expect(Alert.alert).toHaveBeenCalled()
+})
 
-// test('snapshot', () =>{
-//     expect(tree).toMatchSnapshot()
-// })
+it("shows invalid input message when only email input", ()=>{
+    const { getByTestId, getByText } = render(<SigninScreen />)
 
-// test('navigate to signup', () =>{
-//     const text = tree.root.findByProps({testID: 'sign-up-txt'}).props
-//     text.onPress()
-//     expect(navigation.navigate).toBeCalledWith('Signup')
-// })
+    fireEvent.changeText(getByTestId("signIn.EmailInput"), 'test123@hotmail.com')
+    fireEvent.press(getByTestId("signIn.Button"))
+    expect(Alert.alert).toHaveBeenCalled()
+})
 
-// test('placeholders', async () =>{
-//     // const placeholder = tree.root.getByPlaceholderText('Email'); 
-//     // expect(placeholder).tob
-//     render(<SigninScreen />)
-//     const text = screen.findByPlaceholderText("Email")
-//     expect(text).toBe("Email")
-// })
+it("handles valid input", async () => {
 
-// describe("<App />", () => {
-//     it('has 1 child', () => {
-//         const tree = renderer.create(<App />).toJSON();
-//         expect(tree.children.length).toBe(1);
-//     });
-// });
+    const navigationMock = jest.fn()
+
+    const { getByTestId, getByText } = render(<SigninScreen navigation={{ navigate: navigationMock}} />)
+    fireEvent.changeText(getByTestId("signIn.EmailInput"), 'test123@hotmail.com')
+    fireEvent.changeText(getByTestId("signIn.PasswordInput"), 'test123')
+    fireEvent.press(getByTestId("signIn.Button"))
+
+    await act(() => new Promise((resolve) => setImmediate(resolve)))
+    expect(navigationMock).toBeCalledWith('Profile')
+})
+
+it("navigate to signup", ()=>{
+    const navigationMock = jest.fn()
+    const { getByTestId } = render(<SigninScreen navigation={{ navigate: navigationMock}} />)
+
+    fireEvent.press(getByTestId("signIn.signUpLink"))
+    expect(navigationMock).toBeCalledWith('Signup')
+})
+
+it("navigate to reset password", ()=>{
+    const navigationMock = jest.fn()
+    const { getByTestId } = render(<SigninScreen navigation={{ navigate: navigationMock}} />)
+
+    fireEvent.press(getByTestId("signIn.forgotPasswordLink"))
+    expect(navigationMock).toBeCalledWith('ResetPassword')
+})
+
+//should I check that it updates the state when a value is input
+// check that when invalid data is given, an alert appears ?

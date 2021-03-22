@@ -38,6 +38,7 @@ export default class ResetPasswordScreen extends Component {
             <View style={{...stylesheet.container, height: '40%'}}>
                 {/* Input text field */}
                 <TextInput style={{...stylesheet.inputStyle, borderTopWidth: 1,}}
+                    testID="reset.EmailInput"
                     value={this.state.email}
                     onChangeText={(text) => { this.setState({email: text}) }}
                     placeholder="Email"
@@ -46,7 +47,7 @@ export default class ResetPasswordScreen extends Component {
                     autoCapitalize="none"
                     autoCorrect={false} />
                 {/* Reset button */}
-                <TouchableOpacity onPress={this.onResetPasswordClick} style={{...stylesheet.appButtonContainer, width: '70%'}}>
+                <TouchableOpacity testID="reset.Button" onPress={this.onResetPasswordClick} style={{...stylesheet.appButtonContainer, width: '70%'}}>
                     <Text style={ stylesheet.button } onPress={this.onResetPasswordClick}>Reset Password</Text>
                 </TouchableOpacity>
             </View>

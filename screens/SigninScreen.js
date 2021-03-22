@@ -63,6 +63,7 @@ export default class SigninScreen extends Component {
           {/* Input fields */}
           <View style={stylesheet.container}>
             <TextInput
+              testID="signIn.EmailInput"
               style={stylesheet.inputStyle}
               placeholder="Email"
               placeholderTextColor= '#fff'
@@ -70,6 +71,7 @@ export default class SigninScreen extends Component {
               onChangeText={(val) => this.onTextInput(val, 'email')}
             />
             <TextInput
+              testID="signIn.PasswordInput"
               style={stylesheet.inputStyle}
               placeholder="Password"
               placeholderTextColor= '#fff'
@@ -79,13 +81,13 @@ export default class SigninScreen extends Component {
               secureTextEntry={true}
             />
             {/* navigation options: sign in, sign up or reset password */}
-            <TouchableOpacity onPress={() => this.onSignInClick()} style={stylesheet.appButtonContainer}>
+            <TouchableOpacity testID="signIn.Button"onPress={() => this.onSignInClick()} style={stylesheet.appButtonContainer}>
               <Text style={ stylesheet.button } onPress={() => this.onSignInClick()}>Sign In</Text>
             </TouchableOpacity>
-            <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signup')}>
+            <Text testID="signIn.signUpLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signup')}>
                 Don't have an account? Click here to sign up
             </Text>
-            <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
+            <Text testID="signIn.forgotPasswordLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
                 Forgot your password? Reset here
             </Text>                          
           </View>
