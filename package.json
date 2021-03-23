@@ -10,8 +10,9 @@
   },
   "jest": {
     "preset": "jest-expo",
+    "testEnvironment": "node",
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|tensorflow|@tensorflow/.*|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
     ]
   },
   "dependencies": {
@@ -27,7 +28,6 @@
     "@tensorflow/tfjs-core": "^2.8.5",
     "@tensorflow/tfjs-react-native": "^0.5.0",
     "@testing-library/jest-native": "^4.0.0",
-    "@testing-library/react": "^11.2.5",
     "@types/jest": "^26.0.21",
     "babel-jest": "^25.5.1",
     "babel-preset-env": "^1.7.0",
@@ -66,6 +66,7 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@testing-library/react": "^11.2.5",
     "@testing-library/react-native": "^7.2.0",
     "enzyme-to-json": "^3.6.1",
     "react-test-renderer": "^16.13.1"

@@ -28,16 +28,6 @@ jest.mock('firebase', () => {
       }),
     };
   });
-//   jest.mock('../database/firebase', () => {
-//     const fire = {
-//       firebase: {
-//         auth: () => ({
-//           sendPasswordResetEmail: () => Promise.resolve(),
-//         }),
-//       },
-//     }
-//     return fire
-//   })
 
 it("renders default elements", () =>{
     const { getAllByText, getByPlaceholderText } = render(<SigninScreen />)
