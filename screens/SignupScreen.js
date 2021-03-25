@@ -45,7 +45,10 @@ export default class SignupScreen extends Component {
         // If successful...
         this.props.navigation.navigate('Signin')
         Alert.alert('Sign Up Successful!') })
-      .catch(error => Alert.alert('An error occurred. Please try again later.'))      
+      .catch(error =>{ 
+        Alert.alert('An error occurred. Please try again later.')
+        this.props.navigation.navigate('Signup')}
+      )      
     }
   }
 

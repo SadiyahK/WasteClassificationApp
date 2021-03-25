@@ -186,8 +186,8 @@ class ClassifierScreen extends React.Component {
                 results &&
                 <Text style={styles.commonTextWhite}>
                     1st: {results[0]}{"  "} --Probability: {(predictions.dataSync()[5].toPrecision(4))}{"\n"}
-                    2nd: {(results[1])}{"  "} --Probability: {(predictions.dataSync()[4].toPrecision(4))}{"\n"}
-                    3rd: {(results[2])}{"  "} --Probability: {(predictions.dataSync()[3].toPrecision(4))}                       
+                    {/* 2nd: {(results[1])}{"  "} --Probability: {(predictions.dataSync()[4].toPrecision(4))}{"\n"}
+                    3rd: {(results[2])}{"  "} --Probability: {(predictions.dataSync()[3].toPrecision(4))}                        */}
                 </Text>}
             </View>
 

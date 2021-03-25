@@ -2,7 +2,7 @@
  * ProfileScreen: Handles displaying the user's details by reading data
  * from the remote database.
  */
-import React, { Component } from 'react';
+import React, { Component, Alert } from 'react';
 import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 import firebase from '../database/firebase';
 import stylesheet from '../styles/stylesheet.js'
@@ -20,7 +20,8 @@ export default class ProfileScreen extends Component {
     firebase.auth().signOut().then(() => {
       this.props.navigation.navigate('Signin')
     })
-    .catch(error => this.setState({ errorMessage: error.message }))
+    .catch(error => Alert.alert("There was an issue signing you out. Please try again later."))
+    //this.setState({ errorMessage: error.message }))
   }  
 
   render() {
