@@ -1,5 +1,7 @@
 /**
  * ClassifierScreen: Controls classification feature and handles use of model.
+ * The code for loading the model and formatting the image tensor were inspired by this post written by Lin Xiang
+ * https://javascript.plainenglish.io/how-to-run-ai-models-locally-in-the-smartphone-with-react-native-and-tensorflow-js-666f52fd15ca
  */
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Image, Alert} from 'react-native'
 import * as tf from '@tensorflow/tfjs'
@@ -19,16 +21,16 @@ class ClassifierScreen extends React.Component {
 
     // Initial setup of tensorflow and model
     async componentDidMount() {
-
-        console.log("[+] Application started")
         //Wait for tensorflow module to be ready
         await tf.ready()
         this.setState({ isTfReady: true })
         console.log("[+] Loading custom waste classification model")
-        // load model
+
+        // load model - inspired by Lin Xiang's code (linked above)
         const modelJson = await require("../..//assets/model/model.json")
         const modelWeight = await require("../../assets/model/group1-shard1of1.bin")
         this.wasteDetector = await tf.loadLayersModel(bundleResourceIO(modelJson,modelWeight))
+
         console.log("[+] Model Loaded")
         this.setState({ isModelReady: true })
         this.getPermissionAsync()
@@ -47,13 +49,11 @@ class ClassifierScreen extends React.Component {
     // Classify input image and get predictions
     classifyImage = async () => {
         try {
-            const imageAssetPath = Image.resolveAssetSource(this.state.image)
-            const response = await fetch(imageAssetPath.uri, {}, { isBinary: true })
-            const rawImageData = await response.arrayBuffer()
-            const imageTensor = this.convertImageToTensor(rawImageData)
-            // const pred = await this.wasteDetector.predict_classes(imageTensor) //TRY THIS TOMORROW!
-            // console.log(pred)
-            const predictions = await this.wasteDetector.predict(imageTensor)
+            const imgAssetPath = Image.resolveAssetSource(this.state.image)
+            const fetchedResponse = await fetch(imgAssetPath.uri, {}, { isBinary: true })
+            const rawImgData = await fetchedResponse.arrayBuffer()
+            const imgTensor = this.convertImageToTensor(rawImgData)
+            const predictions = await this.wasteDetector.predict(imgTensor)
             this.getPrediction(predictions)
         } catch (error) {
             console.log(error)
@@ -80,6 +80,7 @@ class ClassifierScreen extends React.Component {
     }
 
     // reformat tensor to match expected intput for model
+    // Method inspired by Lin Xiang's code (linked above)
     formatTensor(img){
         const resized_img = tf.image.resizeBilinear(img, [256, 256]);
         // add a fourth batch dimension to the tensor
@@ -89,6 +90,7 @@ class ClassifierScreen extends React.Component {
     }
 
     // Convert input image to tensor so model can process it
+    // Method inspired by Lin Xiang's code (linked above)
     convertImageToTensor(rawImageData) {
         const TO_UINT8ARRAY = true
         const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY)

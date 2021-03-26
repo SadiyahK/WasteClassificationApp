@@ -9,6 +9,8 @@ import { shallow } from 'enzyme';
 Enzyme.configure({ adapter: new Adapter() });
 
 //mock alert
+// taken from the comment Fossage left on 26 Sep 2019 on this post:
+// https://github.com/facebook/react-native/issues/26579 *used in other tests files
 jest.mock('react-native', () => {
     const RN = jest.requireActual('react-native')
 
@@ -36,16 +38,7 @@ it("alert appears when model is not ready", () =>{
     fireEvent.press(getByTestId("classifier.CameraDisplay"))
     expect(Alert.alert).toHaveBeenCalled()
 })
-
-
-const timeout = () =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, 2000);
-  });
-
-  
+ 
   const initialState = {
     isTfReady: true,
     isModelReady: true,
