@@ -3,8 +3,8 @@
  */
 import React, { Component } from 'react';
 import {Text, View, TextInput, Alert, ActivityIndicator, TouchableOpacity, Image } from 'react-native';
-import firebase from '../database/firebase';
-import stylesheet from '../styles/stylesheet.js'
+import firebase from '../../database/Firebase';
+import stylesheet from '../../styles/stylesheet.js'
 
 export default class SigninScreen extends Component {
   
@@ -37,9 +37,15 @@ export default class SigninScreen extends Component {
       .then((res) => {
         console.log('sign in successful')
         this.setState({ email: '', password: '', isLoading: false })
-        this.props.navigation.navigate('Profile') // navigate to user's profile
+        this.props.navigation.replace('Profile') // navigate to user's profile
       })
-      .catch(error => Alert.alert('An error occurred. Please try again later.'))
+      .catch(error => 
+        {
+          this.setState({ email: '', password: '', isLoading: false })
+          this.props.navigation.replace('SignIn')
+          Alert.alert(error.message)
+        }
+      )
     }
   }
 
@@ -58,7 +64,7 @@ export default class SigninScreen extends Component {
         <View>
           {/* Top Icon */}
           <View style={stylesheet.topContainer}>
-            <Image source={require('../assets/p-trans.png')} style={stylesheet.imageIcon}/>
+            <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
           </View>
           {/* Input fields */}
           <View style={stylesheet.container}>
@@ -84,7 +90,7 @@ export default class SigninScreen extends Component {
             <TouchableOpacity testID="signIn.Button"onPress={() => this.onSignInClick()} style={stylesheet.appButtonContainer}>
               <Text style={ stylesheet.button } onPress={() => this.onSignInClick()}>Sign In</Text>
             </TouchableOpacity>
-            <Text testID="signIn.signUpLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signup')}>
+            <Text testID="signIn.signUpLink" style={stylesheet.loginText} onPress={() => this.props.navigation.replace('SignUp')}>
                 Don't have an account? Click here to sign up
             </Text>
             <Text testID="signIn.forgotPasswordLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>

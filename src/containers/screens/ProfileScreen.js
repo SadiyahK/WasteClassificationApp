@@ -4,8 +4,8 @@
  */
 import React, { Component, Alert } from 'react';
 import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
-import firebase from '../database/firebase';
-import stylesheet from '../styles/stylesheet.js'
+import firebase from '../../database/Firebase';
+import stylesheet from '../../styles/stylesheet.js'
 
 export default class ProfileScreen extends Component {
   constructor() {
@@ -18,10 +18,9 @@ export default class ProfileScreen extends Component {
   // handles signin the user out of their account.
   onSignOutClick = () => {
     firebase.auth().signOut().then(() => {
-      this.props.navigation.navigate('Signin')
+      this.props.navigation.replace('SignIn')
     })
-    .catch(error => Alert.alert("There was an issue signing you out. Please try again later."))
-    //this.setState({ errorMessage: error.message }))
+    .catch(error => Alert.alert(error.message + "\n There was an issue signing you out. Please try again later."))
   }  
 
   render() {
@@ -29,12 +28,12 @@ export default class ProfileScreen extends Component {
       displayName: firebase.auth().currentUser.displayName,
       email: firebase.auth().currentUser.email,
       uid: firebase.auth().currentUser.uid
-    }    
+    }
     return (
     <View>
       {/* Icon */}
       <View style={stylesheet.topContainer}>
-        <Image source={require('../assets/p-trans.png')} style={stylesheet.imageIcon}/>
+        <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
       </View>
 
       {/* Display user data */}
@@ -50,13 +49,9 @@ export default class ProfileScreen extends Component {
         </View>
 
         {/* Navigation options: reset password + sign out */}
-        {/* <Button testID="profile.forgotPasswordLink" style={ stylesheet.button } title="Reset Password" onPress={() => this.props.navigation.navigate('ResetPassword')} /> */}
-        <Text testID="signIn.forgotPasswordLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
-                Reset Password
-        </Text>   
-        {/* <TouchableOpacity testID="profile.forgotPasswordLink" onPress={() => this.props.navigation.navigate('ResetPassword')} style={{...stylesheet.appButtonContainer, width: '70%'}}>
-          <Text style={ stylesheet.button } onPress={() => this.props.navigation.navigate('ResetPassword')}>Reset Password</Text>
-        </TouchableOpacity> */}
+        <Text testID="profile.forgotPasswordLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
+          Reset Password
+        </Text>
         <TouchableOpacity testID="profile.signOutButton" onPress={() => this.onSignOutClick()} style={stylesheet.appButtonContainer}>
           <Text style={ stylesheet.button } onPress={() => this.onSignOutClick()}>Sign Out</Text>
         </TouchableOpacity>

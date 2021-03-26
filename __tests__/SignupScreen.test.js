@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react-native'
 
-import SignupScreen from '../screens/SignupScreen';
+import SignUpScreen from '../src/containers/screens/SignUpScreen';
 import { Alert } from 'react-native'
 
 //mock alert
@@ -31,7 +31,7 @@ jest.mock('firebase', () => {
   });
 
   it("renders default elements", () =>{
-    const { getAllByText, getByPlaceholderText } = render(<SignupScreen />)
+    const { getAllByText, getByPlaceholderText } = render(<SignUpScreen />)
 
     expect(getAllByText("Sign Up").length).toBe(1)
     //if placeholder text is shown then that means input fields are empty as expected
@@ -42,14 +42,14 @@ jest.mock('firebase', () => {
 
 it("navigate to signin", ()=>{
     const navigationMock = jest.fn()
-    const { getByTestId } = render(<SignupScreen navigation={{ navigate: navigationMock}} />)
+    const { getByTestId } = render(<SignUpScreen navigation={{ replace: navigationMock}} />)
 
     fireEvent.press(getByTestId("signUp.signInLink"))
-    expect(navigationMock).toBeCalledWith('Signin')
+    expect(navigationMock).toBeCalledWith('SignIn')
 })
 
 it("shows invalid input message when only password input", ()=>{
-    const { getByTestId, getByText } = render(<SignupScreen />)
+    const { getByTestId, getByText } = render(<SignUpScreen />)
 
     fireEvent.changeText(getByTestId("signUp.PasswordInput"), 'test123')
     fireEvent.press(getByTestId("signUp.Button"))
@@ -57,7 +57,7 @@ it("shows invalid input message when only password input", ()=>{
 })
 
 it("shows invalid input message when only email input", ()=>{
-    const { getByTestId, getByText } = render(<SignupScreen />)
+    const { getByTestId, getByText } = render(<SignUpScreen />)
 
     fireEvent.changeText(getByTestId("signUp.EmailInput"), 'test123@hotmail.com')
     fireEvent.press(getByTestId("signUp.Button"))
@@ -65,7 +65,7 @@ it("shows invalid input message when only email input", ()=>{
 })
 
 it("shows invalid input message when only name input", ()=>{
-    const { getByTestId, getByText } = render(<SignupScreen />)
+    const { getByTestId, getByText } = render(<SignUpScreen />)
 
     fireEvent.changeText(getByTestId("signUp.NameInput"), 'name123')
     fireEvent.press(getByTestId("signUp.Button"))
@@ -73,7 +73,7 @@ it("shows invalid input message when only name input", ()=>{
 })
 
 it("shows invalid input message when only email and password input", ()=>{
-    const { getByTestId, getByText } = render(<SignupScreen />)
+    const { getByTestId, getByText } = render(<SignUpScreen />)
 
     fireEvent.changeText(getByTestId("signUp.EmailInput"), 'test123@hotmail.com')
     fireEvent.changeText(getByTestId("signUp.PasswordInput"), 'test123')
@@ -82,7 +82,7 @@ it("shows invalid input message when only email and password input", ()=>{
 })
 
 it("shows invalid input message when only name and password input", ()=>{
-    const { getByTestId, getByText } = render(<SignupScreen />)
+    const { getByTestId, getByText } = render(<SignUpScreen />)
 
     fireEvent.changeText(getByTestId("signUp.NameInput"), 'name123')
     fireEvent.changeText(getByTestId("signUp.PasswordInput"), 'test123')
@@ -91,7 +91,7 @@ it("shows invalid input message when only name and password input", ()=>{
 })
 
 it("shows invalid input message when only name and email input", ()=>{
-    const { getByTestId, getByText } = render(<SignupScreen />)
+    const { getByTestId, getByText } = render(<SignUpScreen />)
 
     fireEvent.changeText(getByTestId("signUp.EmailInput"), 'test123@hotmail.com')
     fireEvent.changeText(getByTestId("signUp.NameInput"), 'name123')
@@ -102,7 +102,7 @@ it("shows invalid input message when only name and email input", ()=>{
 //  TODO:
 // it("valid input data", async ()=>{
 //     const navigationMock = jest.fn()
-//     const { getByTestId, getByText } = render(<SignupScreen navigation={{ navigate: navigationMock}} />)
+//     const { getByTestId, getByText } = render(<SignUpScreen navigation={{ navigate: navigationMock}} />)
 
 //     fireEvent.changeText(getByTestId("signUp.EmailInput"), 'test123@hotmail.com')
 //     fireEvent.changeText(getByTestId("signUp.NameInput"), 'name123')

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native'
 
-import SigninScreen from '../screens/SigninScreen';
+import SignInScreen from '../src/containers/screens/SignInScreen';
 import { Alert } from 'react-native'
 
 //mock alert
@@ -30,7 +30,7 @@ jest.mock('firebase', () => {
   });
 
 it("renders default elements", () =>{
-    const { getAllByText, getByPlaceholderText } = render(<SigninScreen />)
+    const { getAllByText, getByPlaceholderText } = render(<SignInScreen />)
 
     expect(getAllByText("Sign In").length).toBe(1)
     //if placeholder text is shown then that means input fields are empty as expected
@@ -39,14 +39,14 @@ it("renders default elements", () =>{
 })
 
 it("shows invalid input message", ()=>{
-    const { getByTestId, getByText } = render(<SigninScreen />)
+    const { getByTestId, getByText } = render(<SignInScreen />)
 
     fireEvent.press(getByTestId("signIn.Button"))
     expect(Alert.alert).toHaveBeenCalled()
 })
 
 it("shows invalid input message when only password input", ()=>{
-    const { getByTestId, getByText } = render(<SigninScreen />)
+    const { getByTestId, getByText } = render(<SignInScreen />)
 
     fireEvent.changeText(getByTestId("signIn.PasswordInput"), 'test123')
     fireEvent.press(getByTestId("signIn.Button"))
@@ -54,7 +54,7 @@ it("shows invalid input message when only password input", ()=>{
 })
 
 it("shows invalid input message when only email input", ()=>{
-    const { getByTestId, getByText } = render(<SigninScreen />)
+    const { getByTestId, getByText } = render(<SignInScreen />)
 
     fireEvent.changeText(getByTestId("signIn.EmailInput"), 'test123@hotmail.com')
     fireEvent.press(getByTestId("signIn.Button"))
@@ -65,7 +65,7 @@ it("handles valid input", async () => {
 
     const navigationMock = jest.fn()
 
-    const { getByTestId, getByText } = render(<SigninScreen navigation={{ navigate: navigationMock}} />)
+    const { getByTestId, getByText } = render(<SignInScreen navigation={{ replace: navigationMock}} />)
     fireEvent.changeText(getByTestId("signIn.EmailInput"), 'test123@hotmail.com')
     fireEvent.changeText(getByTestId("signIn.PasswordInput"), 'test123')
     fireEvent.press(getByTestId("signIn.Button"))
@@ -76,15 +76,15 @@ it("handles valid input", async () => {
 
 it("navigate to signup", ()=>{
     const navigationMock = jest.fn()
-    const { getByTestId } = render(<SigninScreen navigation={{ navigate: navigationMock}} />)
+    const { getByTestId } = render(<SignInScreen navigation={{ replace: navigationMock}} />)
 
     fireEvent.press(getByTestId("signIn.signUpLink"))
-    expect(navigationMock).toBeCalledWith('Signup')
+    expect(navigationMock).toBeCalledWith('SignUp')
 })
 
 it("navigate to reset password", ()=>{
     const navigationMock = jest.fn()
-    const { getByTestId } = render(<SigninScreen navigation={{ navigate: navigationMock}} />)
+    const { getByTestId } = render(<SignInScreen navigation={{ navigate: navigationMock}} />)
 
     fireEvent.press(getByTestId("signIn.forgotPasswordLink"))
     expect(navigationMock).toBeCalledWith('ResetPassword')

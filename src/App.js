@@ -8,11 +8,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons'; 
 
-import ProfileScreen from './screens/ProfileScreen'
-import ClassifierScreen from './screens/ClassifierScreen'
-import SignupScreen from './screens/SignupScreen'
-import SigninScreen from './screens/SigninScreen'
-import ResetPassword from './screens/ResetPasswordScreen'
+import ProfileScreen from './containers/screens/ProfileScreen'
+import ClassifierScreen from './containers/screens/ClassifierScreen'
+import SignUpScreen from './containers/screens/SignUpScreen'
+import SignInScreen from './containers/screens/SignInScreen'
+import ResetPassword from './containers/screens/ResetPasswordScreen'
 
 // Navigation stack for home screen consisting of Classifier.
 const HomeStack = createStackNavigator();
@@ -56,8 +56,8 @@ function AccountStackScreen() {
         fontSize: 35,
       },
     }}>
-      <AccountStack.Screen name="Signup" component={SignupScreen} options={{ headerTitle: "Sign Up" }}/>
-      <AccountStack.Screen name="Signin" component={SigninScreen} options={{ headerTitle: "Sign In" }}/>
+      <AccountStack.Screen name="SignUp" component={SignUpScreen} options={{ headerTitle: "Sign Up" }}/>
+      <AccountStack.Screen name="SignIn" component={SignInScreen} options={{ headerTitle: "Sign In" }}/>
       <AccountStack.Screen name="Profile" component={ProfileScreen} options={{ headerTitle: "Profile" }}/>
       <AccountStack.Screen name="ResetPassword" component={ResetPassword} options={{ headerTitle: "Reset Password" }}/>
     </AccountStack.Navigator>

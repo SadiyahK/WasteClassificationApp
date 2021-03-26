@@ -2,7 +2,7 @@ import React, { Text } from 'react';
 import { render, fireEvent } from '@testing-library/react-native'
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import ClassifierScreen from '../screens/ClassifierScreen';
+import ClassifierScreen from '../src/containers/screens/ClassifierScreen';
 import { Alert } from 'react-native'
 import { shallow } from 'enzyme';
 
@@ -71,7 +71,8 @@ const timeout = () =>
     })
     
     it("check predictions are displayed once the state is updated", async () =>{
-        expect(wrapper.containsMatchingElement(<Text>Predictions:   0.002</Text>))
+        expect(wrapper.containsMatchingElement(<Text>Most Likely:</Text>))
+        expect(wrapper.containsMatchingElement(<Text>Probability:</Text>))
     })
 
     it("check reset button clears predictions and image", async () =>{
