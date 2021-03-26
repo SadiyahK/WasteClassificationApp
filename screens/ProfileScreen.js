@@ -2,7 +2,7 @@
  * ProfileScreen: Handles displaying the user's details by reading data
  * from the remote database.
  */
-import React, { Component } from 'react';
+import React, { Component, Alert } from 'react';
 import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 import firebase from '../database/firebase';
 import stylesheet from '../styles/stylesheet.js'
@@ -20,7 +20,8 @@ export default class ProfileScreen extends Component {
     firebase.auth().signOut().then(() => {
       this.props.navigation.navigate('Signin')
     })
-    .catch(error => this.setState({ errorMessage: error.message }))
+    .catch(error => Alert.alert("There was an issue signing you out. Please try again later."))
+    //this.setState({ errorMessage: error.message }))
   }  
 
   render() {
@@ -49,11 +50,16 @@ export default class ProfileScreen extends Component {
         </View>
 
         {/* Navigation options: reset password + sign out */}
-        <Button title="Reset Password" onPress={() => this.props.navigation.navigate('ResetPassword')} />
-        <TouchableOpacity onPress={() => this.onSignOutClick()} style={stylesheet.appButtonContainer}>
-          <Text style={ stylesheet.button } onPress={() => this.onSignOutClick()}>Logout</Text>
+        {/* <Button testID="profile.forgotPasswordLink" style={ stylesheet.button } title="Reset Password" onPress={() => this.props.navigation.navigate('ResetPassword')} /> */}
+        <Text testID="signIn.forgotPasswordLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
+                Reset Password
+        </Text>   
+        {/* <TouchableOpacity testID="profile.forgotPasswordLink" onPress={() => this.props.navigation.navigate('ResetPassword')} style={{...stylesheet.appButtonContainer, width: '70%'}}>
+          <Text style={ stylesheet.button } onPress={() => this.props.navigation.navigate('ResetPassword')}>Reset Password</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity testID="profile.signOutButton" onPress={() => this.onSignOutClick()} style={stylesheet.appButtonContainer}>
+          <Text style={ stylesheet.button } onPress={() => this.onSignOutClick()}>Sign Out</Text>
         </TouchableOpacity>
-        
       </View>                      
     </View>
     );

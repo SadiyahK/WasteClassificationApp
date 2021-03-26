@@ -45,7 +45,10 @@ export default class SignupScreen extends Component {
         // If successful...
         this.props.navigation.navigate('Signin')
         Alert.alert('Sign Up Successful!') })
-      .catch(error => Alert.alert('An error occurred. Please try again later.'))      
+      .catch(error =>{ 
+        Alert.alert('An error occurred. Please try again later.')
+        this.props.navigation.navigate('Signup')}
+      )      
     }
   }
 
@@ -68,6 +71,7 @@ export default class SignupScreen extends Component {
       {/* UI for input fields */}
       <View style={stylesheet.container}>
         <TextInput
+          testID="signUp.NameInput"
           style={stylesheet.inputStyle}
           placeholder="Name"
           placeholderTextColor= '#fff'
@@ -75,6 +79,7 @@ export default class SignupScreen extends Component {
           onChangeText={(val) => this.onTextInput(val, 'displayName')}
         />  
         <TextInput
+          testID="signUp.EmailInput"
           style={stylesheet.inputStyle}
           placeholder="Email"
           placeholderTextColor= '#fff'
@@ -82,6 +87,7 @@ export default class SignupScreen extends Component {
           onChangeText={(val) => this.onTextInput(val, 'email')}
         />
         <TextInput
+          testID="signUp.PasswordInput"
           style={stylesheet.inputStyle}
           placeholder="Password"
           placeholderTextColor= '#fff'
@@ -91,10 +97,10 @@ export default class SignupScreen extends Component {
           secureTextEntry={true}
         />  
         {/* Navigation options: sign up and sign in */}
-        <TouchableOpacity onPress={() => this.onSignUpClick()} style={stylesheet.appButtonContainer}>
+        <TouchableOpacity testID="signUp.Button" onPress={() => this.onSignUpClick()} style={stylesheet.appButtonContainer}>
           <Text style={ stylesheet.button } onPress={() => this.onSignUpClick()}>Sign Up</Text>
         </TouchableOpacity>
-        <Text style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signin')}>
+        <Text testID ="signUp.signInLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signin')}>
           Already Registered? Click here to sign in
         </Text>  
       </View>

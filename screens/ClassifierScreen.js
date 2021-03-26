@@ -39,7 +39,7 @@ class ClassifierScreen extends React.Component {
         if (Platform.OS !== 'web') {
             const { status } = await ImagePicker.requestCameraPermissionsAsync();
             if (status !== 'granted') {
-              alert('Sorry, we need camera  permissions to make this work!');
+                Alert.alert('Sorry, we need camera  permissions to make this work!');
             }
           }
     }    
@@ -57,7 +57,7 @@ class ClassifierScreen extends React.Component {
             this.getPrediction(predictions)
         } catch (error) {
             console.log(error)
-            alert("Sorry, unable to classify this. Please try again")
+            Alert.alert("Sorry, unable to classify this. Please try again")
         }
     }
 
@@ -121,7 +121,7 @@ class ClassifierScreen extends React.Component {
             }
         }catch (error) {
             console.log(error)
-            alert("There was an issue taking the picture. Please try again!")
+            Alert.alert("There was an issue taking the picture. Please try again!")
         }
     };
 
@@ -135,7 +135,7 @@ class ClassifierScreen extends React.Component {
     // display alert if user tries to open camera
     // model is not ready
     onCamViewNotReadyClick = () =>{
-        alert("Please wait for the model to load before trying to take an image")
+        Alert.alert("Please wait for the model to load before trying to take an image")
     }
 
     render() {
@@ -151,6 +151,7 @@ class ClassifierScreen extends React.Component {
 
             {/* pick + display image */}
             <TouchableOpacity
+                testID="classifier.CameraDisplay"
                 style={styles.imageWrapper}
                 onPress={isModelReady ? this.onCamClick : this.onCamViewNotReadyClick}>
                 
@@ -162,7 +163,7 @@ class ClassifierScreen extends React.Component {
                 )  : undefined}
 
                 {isModelReady && !image && (
-                    <Text style={styles.commonTextStyles}>Tap to open camera</Text>
+                    <Text onPress={this.onCamClick} style={styles.commonTextStyles}>Tap to open camera</Text>
                 )}
             </TouchableOpacity>
 
@@ -184,9 +185,11 @@ class ClassifierScreen extends React.Component {
                 predictions &&
                 results &&
                 <Text style={styles.commonTextWhite}>
-                    1st: {results[0]}{"  "} --Probability: {(predictions.dataSync()[5].toPrecision(4))}{"\n"}
-                    2nd: {(results[1])}{"  "} --Probability: {(predictions.dataSync()[4].toPrecision(4))}{"\n"}
-                    3rd: {(results[2])}{"  "} --Probability: {(predictions.dataSync()[3].toPrecision(4))}                       
+                    Most Likely: {
+                    results[0].charAt(0).toUpperCase() + results[0].slice(1)}{"\n"} 
+                    Probability: {((predictions.dataSync()[5]*100).toPrecision(3))}{"%"}
+                    {/* 2nd: {(results[1])}{"  "} --Probability: {(predictions.dataSync()[4].toPrecision(4))}{"\n"}
+                    3rd: {(results[2])}{"  "} --Probability: {(predictions.dataSync()[3].toPrecision(4))}                        */}
                 </Text>}
             </View>
 
