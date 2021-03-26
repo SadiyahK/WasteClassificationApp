@@ -50,11 +50,16 @@ export default class ProfileScreen extends Component {
         </View>
 
         {/* Navigation options: reset password + sign out */}
-        <Button testID="profile.forgotPasswordLink" title="Reset Password" onPress={() => this.props.navigation.navigate('ResetPassword')} />
+        {/* <Button testID="profile.forgotPasswordLink" style={ stylesheet.button } title="Reset Password" onPress={() => this.props.navigation.navigate('ResetPassword')} /> */}
+        <Text testID="signIn.forgotPasswordLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
+                Reset Password
+        </Text>   
+        {/* <TouchableOpacity testID="profile.forgotPasswordLink" onPress={() => this.props.navigation.navigate('ResetPassword')} style={{...stylesheet.appButtonContainer, width: '70%'}}>
+          <Text style={ stylesheet.button } onPress={() => this.props.navigation.navigate('ResetPassword')}>Reset Password</Text>
+        </TouchableOpacity> */}
         <TouchableOpacity testID="profile.signOutButton" onPress={() => this.onSignOutClick()} style={stylesheet.appButtonContainer}>
           <Text style={ stylesheet.button } onPress={() => this.onSignOutClick()}>Sign Out</Text>
         </TouchableOpacity>
-        
       </View>                      
     </View>
     );
