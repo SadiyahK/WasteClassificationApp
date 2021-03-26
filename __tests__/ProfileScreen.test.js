@@ -3,7 +3,9 @@ import { render, fireEvent, act } from '@testing-library/react-native'
 
 import ProfileScreen from '../src/containers/screens/ProfileScreen';
 
-//mock firebase
+// mock firebase
+// code inspired by Ilan Roitlender's comment on Jul 25 2020 at 18:35:
+// https://stackoverflow.com/questions/61358076/is-there-a-way-to-mock-firebase-modules-in-jest *used in other tests files
 jest.mock('firebase', () => {
     return {
     initializeApp: jest.fn(),

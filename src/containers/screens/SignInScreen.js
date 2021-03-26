@@ -34,7 +34,7 @@ export default class SigninScreen extends Component {
       this.setState({ isLoading: true })
       //firebase communication
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
+      .then(() => {
         console.log('sign in successful')
         this.setState({ email: '', password: '', isLoading: false })
         this.props.navigation.replace('Profile') // navigate to user's profile
