@@ -43,5 +43,5 @@ it("Navigate to SignIn", async ()=>{
     fireEvent.press(getByTestId("profile.signOutButton"))
 
     await act(() => new Promise((resolve) => setImmediate(resolve)))
-    expect(navigationMock).toBeCalledWith('Signin')
+    expect(navigationMock).toBeCalledWith('SignIn')
 })

@@ -43,11 +43,11 @@ export default class SignupScreen extends Component {
         console.log('User registered successfully!')
         this.setState({ email: '', isLoading: false, password: '', displayName: '' })
         // If successful...
-        this.props.navigation.navigate('Signin')
+        this.props.navigation.navigate('SignIn')
         Alert.alert('Sign Up Successful!') })
       .catch(error =>{ 
         Alert.alert('An error occurred. Please try again later.')
-        this.props.navigation.navigate('Signup')}
+        this.props.navigation.navigate('SignUp')}
       )      
     }
   }
@@ -100,7 +100,7 @@ export default class SignupScreen extends Component {
         <TouchableOpacity testID="signUp.Button" onPress={() => this.onSignUpClick()} style={stylesheet.appButtonContainer}>
           <Text style={ stylesheet.button } onPress={() => this.onSignUpClick()}>Sign Up</Text>
         </TouchableOpacity>
-        <Text testID ="signUp.signInLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signin')}>
+        <Text testID ="signUp.signInLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('SignIn')}>
           Already Registered? Click here to sign in
         </Text>  
       </View>

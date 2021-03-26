@@ -18,7 +18,7 @@ export default class ProfileScreen extends Component {
   // handles signin the user out of their account.
   onSignOutClick = () => {
     firebase.auth().signOut().then(() => {
-      this.props.navigation.navigate('Signin')
+      this.props.navigation.navigate('SignIn')
     })
     .catch(error => Alert.alert("There was an issue signing you out. Please try again later."))
     //this.setState({ errorMessage: error.message }))
@@ -51,7 +51,7 @@ export default class ProfileScreen extends Component {
 
         {/* Navigation options: reset password + sign out */}
         {/* <Button testID="profile.forgotPasswordLink" style={ stylesheet.button } title="Reset Password" onPress={() => this.props.navigation.navigate('ResetPassword')} /> */}
-        <Text testID="signIn.forgotPasswordLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
+        <Text testID="profile.forgotPasswordLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
                 Reset Password
         </Text>   
         {/* <TouchableOpacity testID="profile.forgotPasswordLink" onPress={() => this.props.navigation.navigate('ResetPassword')} style={{...stylesheet.appButtonContainer, width: '70%'}}>

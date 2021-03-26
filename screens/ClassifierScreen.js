@@ -177,7 +177,7 @@ class ClassifierScreen extends React.Component {
                 
                 {isModelReady && image && (
                    <Text style={styles.commonTextWhite}>
-                        Predictions:   {predictions ? '' : <ActivityIndicator size="small" color="#8FD14F" />}
+                        Prediction:   {predictions ? '' : <ActivityIndicator size="small" color="#8FD14F" />}
                     </Text>
                 )}
                 

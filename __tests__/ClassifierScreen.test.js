@@ -71,7 +71,8 @@ const timeout = () =>
     })
     
     it("check predictions are displayed once the state is updated", async () =>{
-        expect(wrapper.containsMatchingElement(<Text>Predictions:   0.002</Text>))
+        expect(wrapper.containsMatchingElement(<Text>Most Likely:</Text>))
+        expect(wrapper.containsMatchingElement(<Text>Probability:</Text>))
     })
 
     it("check reset button clears predictions and image", async () =>{

@@ -84,7 +84,7 @@ export default class SigninScreen extends Component {
             <TouchableOpacity testID="signIn.Button"onPress={() => this.onSignInClick()} style={stylesheet.appButtonContainer}>
               <Text style={ stylesheet.button } onPress={() => this.onSignInClick()}>Sign In</Text>
             </TouchableOpacity>
-            <Text testID="signIn.signUpLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('Signup')}>
+            <Text testID="signIn.signUpLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('SignUp')}>
                 Don't have an account? Click here to sign up
             </Text>
             <Text testID="signIn.forgotPasswordLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('ResetPassword')}>
