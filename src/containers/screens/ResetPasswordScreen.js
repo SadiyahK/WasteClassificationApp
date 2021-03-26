@@ -3,8 +3,8 @@
  */
 import React, { Component } from 'react';
 import {View, StyleSheet, Text, TextInput, Alert, Image, TouchableOpacity } from 'react-native';
-import firebase from '../database/firebase';
-import stylesheet from '../styles/stylesheet.js'
+import firebase from '../../database/Firebase';
+import stylesheet from '../../styles/stylesheet.js'
 
 export default class ResetPasswordScreen extends Component {
 
@@ -22,8 +22,7 @@ export default class ResetPasswordScreen extends Component {
             Alert.alert("Password reset email has been sent to your email address. Please check you spam box.");
             this.setState({ email: ""})
         }, (error) => {
-            console.log(error.message)
-            Alert.alert("Unable to reset password right now. Please try again later.");
+            Alert.alert(error.message);
         });
     }
 
@@ -32,7 +31,7 @@ export default class ResetPasswordScreen extends Component {
         <View>
             {/* Top Icon */}
             <View style={stylesheet.topContainer}>
-                <Image source={require('../assets/p-trans.png')} style={stylesheet.imageIcon}/>
+                <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
             </View>
 
             <View style={{...stylesheet.container, height: '40%'}}>

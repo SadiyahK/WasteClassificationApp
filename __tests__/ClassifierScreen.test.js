@@ -2,7 +2,7 @@ import React, { Text } from 'react';
 import { render, fireEvent } from '@testing-library/react-native'
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import ClassifierScreen from '../screens/ClassifierScreen';
+import ClassifierScreen from '../src/containers/screens/ClassifierScreen';
 import { Alert } from 'react-native'
 import { shallow } from 'enzyme';
 

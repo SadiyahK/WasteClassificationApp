@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react-native'
 
-import SignUpScreen from '../screens/SignUpScreen';
+import SignUpScreen from '../src/containers/screens/SignUpScreen';
 import { Alert } from 'react-native'
 
 //mock alert
@@ -42,7 +42,7 @@ jest.mock('firebase', () => {
 
 it("navigate to signin", ()=>{
     const navigationMock = jest.fn()
-    const { getByTestId } = render(<SignUpScreen navigation={{ navigate: navigationMock}} />)
+    const { getByTestId } = render(<SignUpScreen navigation={{ replace: navigationMock}} />)
 
     fireEvent.press(getByTestId("signUp.signInLink"))
     expect(navigationMock).toBeCalledWith('SignIn')

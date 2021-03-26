@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native'
 
-import SignInScreen from '../screens/SignInScreen';
+import SignInScreen from '../src/containers/screens/SignInScreen';
 import { Alert } from 'react-native'
 
 //mock alert
@@ -65,7 +65,7 @@ it("handles valid input", async () => {
 
     const navigationMock = jest.fn()
 
-    const { getByTestId, getByText } = render(<SignInScreen navigation={{ navigate: navigationMock}} />)
+    const { getByTestId, getByText } = render(<SignInScreen navigation={{ replace: navigationMock}} />)
     fireEvent.changeText(getByTestId("signIn.EmailInput"), 'test123@hotmail.com')
     fireEvent.changeText(getByTestId("signIn.PasswordInput"), 'test123')
     fireEvent.press(getByTestId("signIn.Button"))
@@ -76,7 +76,7 @@ it("handles valid input", async () => {
 
 it("navigate to signup", ()=>{
     const navigationMock = jest.fn()
-    const { getByTestId } = render(<SignInScreen navigation={{ navigate: navigationMock}} />)
+    const { getByTestId } = render(<SignInScreen navigation={{ replace: navigationMock}} />)
 
     fireEvent.press(getByTestId("signIn.signUpLink"))
     expect(navigationMock).toBeCalledWith('SignUp')

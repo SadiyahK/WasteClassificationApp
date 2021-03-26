@@ -26,8 +26,8 @@ class ClassifierScreen extends React.Component {
         this.setState({ isTfReady: true })
         console.log("[+] Loading custom waste classification model")
         // load model
-        const modelJson = await require("../assets/model/model.json")
-        const modelWeight = await require("../assets/model/group1-shard1of1.bin")
+        const modelJson = await require("../..//assets/model/model.json")
+        const modelWeight = await require("../../assets/model/group1-shard1of1.bin")
         this.wasteDetector = await tf.loadLayersModel(bundleResourceIO(modelJson,modelWeight))
         console.log("[+] Model Loaded")
         this.setState({ isModelReady: true })

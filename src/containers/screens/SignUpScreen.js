@@ -3,8 +3,8 @@
  */
 import React, { Component } from 'react';
 import {Text, View, TextInput, Alert, ActivityIndicator, TouchableOpacity, Image} from 'react-native';
-import firebase from '../database/firebase';
-import stylesheet from '../styles/stylesheet.js'
+import firebase from '../../database/Firebase';
+import stylesheet from '../../styles/stylesheet.js'
 
 export default class SignupScreen extends Component {
   
@@ -31,8 +31,11 @@ export default class SignupScreen extends Component {
   onSignUpClick = () => {
     // Validate input
     if(this.state.email === '' || this.state.password === '' || this.state.displayName === '') {
-      Alert.alert('Enter details to signup!')
+      Alert.alert('Enter details to sign up!')
     } 
+    else if(this.state.password.length < 8 || !(/\d/.test(this.state.password))){
+      Alert.alert('Please enter a password that is at least 8 characters long and contains at least 1 number')
+    }
     else {
       this.setState({ isLoading: true })
       // Communicate with firebase
@@ -43,11 +46,13 @@ export default class SignupScreen extends Component {
         console.log('User registered successfully!')
         this.setState({ email: '', isLoading: false, password: '', displayName: '' })
         // If successful...
-        this.props.navigation.navigate('SignIn')
+        this.props.navigation.replace('SignIn')
         Alert.alert('Sign Up Successful!') })
-      .catch(error =>{ 
-        Alert.alert('An error occurred. Please try again later.')
-        this.props.navigation.navigate('SignUp')}
+      .catch(error =>{
+        this.setState({ email: '', isLoading: false, password: '', displayName: '' })
+        this.props.navigation.replace('SignUp')
+        Alert.alert(error.message)
+      }
       )      
     }
   }
@@ -66,7 +71,7 @@ export default class SignupScreen extends Component {
     <View>
       {/* Top Icon display */}
       <View style={stylesheet.topContainer}>
-        <Image source={require('../assets/p-trans.png')} style={stylesheet.imageIcon}/>
+        <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
       </View>
       {/* UI for input fields */}
       <View style={stylesheet.container}>
@@ -100,7 +105,7 @@ export default class SignupScreen extends Component {
         <TouchableOpacity testID="signUp.Button" onPress={() => this.onSignUpClick()} style={stylesheet.appButtonContainer}>
           <Text style={ stylesheet.button } onPress={() => this.onSignUpClick()}>Sign Up</Text>
         </TouchableOpacity>
-        <Text testID ="signUp.signInLink" style={stylesheet.loginText} onPress={() => this.props.navigation.navigate('SignIn')}>
+        <Text testID ="signUp.signInLink" style={stylesheet.loginText} onPress={() => this.props.navigation.replace('SignIn')}>
           Already Registered? Click here to sign in
         </Text>  
       </View>

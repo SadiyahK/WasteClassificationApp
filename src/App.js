@@ -8,11 +8,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons'; 
 
-import ProfileScreen from './screens/ProfileScreen'
-import ClassifierScreen from './screens/ClassifierScreen'
-import SignUpScreen from './screens/SignUpScreen'
-import SignInScreen from './screens/SignInScreen'
-import ResetPassword from './screens/ResetPasswordScreen'
+import ProfileScreen from './containers/screens/ProfileScreen'
+import ClassifierScreen from './containers/screens/ClassifierScreen'
+import SignUpScreen from './containers/screens/SignUpScreen'
+import SignInScreen from './containers/screens/SignInScreen'
+import ResetPassword from './containers/screens/ResetPasswordScreen'
 
 // Navigation stack for home screen consisting of Classifier.
 const HomeStack = createStackNavigator();

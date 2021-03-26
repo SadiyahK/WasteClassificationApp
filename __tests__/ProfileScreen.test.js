@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native'
 
-import ProfileScreen from '../screens/ProfileScreen';
+import ProfileScreen from '../src/containers/screens/ProfileScreen';
 
 //mock firebase
 jest.mock('firebase', () => {
@@ -38,7 +38,7 @@ it("navigate to reset password", ()=>{
 
 it("Navigate to SignIn", async ()=>{
     const navigationMock = jest.fn()
-    const { getByTestId } = render(<ProfileScreen navigation={{ navigate: navigationMock}} />)
+    const { getByTestId } = render(<ProfileScreen navigation={{ replace: navigationMock}} />)
 
     fireEvent.press(getByTestId("profile.signOutButton"))
 
