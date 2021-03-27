@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import {View, StyleSheet, Text, TextInput, Alert, Image, TouchableOpacity } from 'react-native';
 import firebase from '../../database/Firebase';
 import stylesheet from '../../styles/stylesheet.js'
+import {vw, vh} from 'react-native-viewport-units';
 
 export default class ResetPasswordScreen extends Component {
 
@@ -34,7 +35,7 @@ export default class ResetPasswordScreen extends Component {
                 <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
             </View>
 
-            <View style={{...stylesheet.greyContainer, height: '40%'}}>
+            <View style={stylesheet.greyContainer}>
                 {/* Input text field */}
                 <TextInput style={{...stylesheet.inputStyle, borderTopWidth: 1,}}
                     testID="reset.EmailInput"
@@ -46,7 +47,7 @@ export default class ResetPasswordScreen extends Component {
                     autoCapitalize="none"
                     autoCorrect={false} />
                 {/* Reset button */}
-                <TouchableOpacity testID="reset.Button" onPress={this.onResetPasswordClick} style={{...stylesheet.appButtonContainer, width: '70%'}}>
+                <TouchableOpacity testID="reset.Button" onPress={this.onResetPasswordClick} style={{...stylesheet.appButtonContainer, width: vw*60}}>
                     <Text style={ stylesheet.button } onPress={this.onResetPasswordClick}>Reset Password</Text>
                 </TouchableOpacity>
             </View>

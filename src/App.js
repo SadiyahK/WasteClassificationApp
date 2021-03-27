@@ -23,18 +23,14 @@ function HomeStackScreen() {
     screenOptions={{
       headerStyle: {
         backgroundColor: '#8FD14F',
-        //flex: 1 //height: vh*12//100//vh*0.58 //100
       },
       headerTintColor: '#FFFEF2',
       headerTitleStyle: {
-        fontWeight: "bold",//'800',
+        fontWeight: "bold",
         fontFamily: 'System',
-        fontSize: vw*9,//35, //35
+        fontSize: vw*8,
         alignSelf: 'center',
       },
-//      headerLeft: () => (
-//        <Icon style={{ marginLeft: 85 }} name="ios-leaf" color={'#228C22'} size={40}/>
-//      ),
     }}>
       <HomeStack.Screen name="Home" component={ClassifierScreen} options={{ headerTitle: "Classifier" }}/>
     </HomeStack.Navigator>
@@ -49,21 +45,19 @@ function AccountStackScreen() {
     screenOptions={{
       headerStyle: {
         backgroundColor: '#8FD14F',
-        //height: vh*12 //100
-        //flex: 1
       },
       headerTintColor: '#FFFEF2',
       headerTitleStyle: {
         fontWeight: "bold",//'800',
         fontFamily: 'System',
-        fontSize: vw*9, //35
+        fontSize: vw*8, //35
         alignSelf: 'center',
       },
     }}>
       <AccountStack.Screen name="SignUp" component={SignUpScreen} options={{ headerTitle: "Sign Up" }}/>
       <AccountStack.Screen name="SignIn" component={SignInScreen} options={{ headerTitle: "Sign In" }}/>
       <AccountStack.Screen name="Profile" component={ProfileScreen} options={{ headerTitle: "Profile" }}/>
-      <AccountStack.Screen name="ResetPassword" component={ResetPassword} options={{ headerTitle: "Reset Password" }}/>
+      <AccountStack.Screen name="ResetPassword" component={ResetPassword} options={{ headerTitle: "Reset Password"}}/>
     </AccountStack.Navigator>
   );
 }
