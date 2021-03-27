@@ -6,7 +6,8 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons'; 
+import Icon from 'react-native-vector-icons/Ionicons';
+import {vw, vh} from 'react-native-viewport-units';
 
 import ProfileScreen from './containers/screens/ProfileScreen'
 import ClassifierScreen from './containers/screens/ClassifierScreen'
@@ -22,17 +23,18 @@ function HomeStackScreen() {
     screenOptions={{
       headerStyle: {
         backgroundColor: '#8FD14F',
-        height: 100
+        //flex: 1 //height: vh*12//100//vh*0.58 //100
       },
       headerTintColor: '#FFFEF2',
       headerTitleStyle: {
-        fontWeight: '800',
+        fontWeight: "bold",//'800',
         fontFamily: 'System',
-        fontSize: 35,
+        fontSize: vw*9,//35, //35
+        alignSelf: 'center',
       },
-      headerLeft: () => (
-        <Icon style={{ marginLeft: 85 }} name="ios-leaf" color={'#228C22'} size={40}/>
-      ),
+//      headerLeft: () => (
+//        <Icon style={{ marginLeft: 85 }} name="ios-leaf" color={'#228C22'} size={40}/>
+//      ),
     }}>
       <HomeStack.Screen name="Home" component={ClassifierScreen} options={{ headerTitle: "Classifier" }}/>
     </HomeStack.Navigator>
@@ -47,13 +49,15 @@ function AccountStackScreen() {
     screenOptions={{
       headerStyle: {
         backgroundColor: '#8FD14F',
-        height: 100
+        //height: vh*12 //100
+        //flex: 1
       },
       headerTintColor: '#FFFEF2',
       headerTitleStyle: {
-        fontWeight: '800',
+        fontWeight: "bold",//'800',
         fontFamily: 'System',
-        fontSize: 35,
+        fontSize: vw*9, //35
+        alignSelf: 'center',
       },
     }}>
       <AccountStack.Screen name="SignUp" component={SignUpScreen} options={{ headerTitle: "Sign Up" }}/>

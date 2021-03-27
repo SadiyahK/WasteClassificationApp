@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as jpeg from 'jpeg-js'
 import React, { useState, useEffect }  from 'react';
 import { fetch, bundleResourceIO } from '@tensorflow/tfjs-react-native';
+import {vw, vh} from 'react-native-viewport-units';
 
 class ClassifierScreen extends React.Component {
     state = {
@@ -147,7 +148,7 @@ class ClassifierScreen extends React.Component {
             <View style={styles.container}>
                 
             {/* Description helper text */}
-            <View style={styles.loadingContainer}>
+            <View style={styles.descriptionContainer}>
                 <Text style={styles.descBox}>Once the model has loaded tap the green box to take a picture to classify!</Text>
             </View>
 
@@ -207,23 +208,74 @@ class ClassifierScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
+        flex: 5,
+        alignItems: 'stretch',
         color: '#FFFEF2'
     },
+    descriptionContainer: {
+        flex: 1,
+        marginTop: vh*2,
+        marginLeft: vh*2,
+        marginRight: vh*2,
+        backgroundColor: 'rgba(52, 52, 52, 0.40)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    descBox: {
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff',
+        fontFamily: 'System',
+        fontWeight: 'bold'
+    },
+    imageWrapper: {
+        flex: 4,
+        borderColor: '#8FD14F',
+        borderWidth: vh*0.65,//6,
+        borderStyle: 'dashed',
+        marginTop: vh*3,
+        marginBottom: vh*3,
+        marginLeft: vh*5,
+        marginRight: vh*5,
+        position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    imageContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        position: 'absolute',
+        alignItems: 'center',
+        top: vh*1,
+        left: vh*1,
+        bottom: vh*1,
+        right: vh*1,
+    },
+    predictionWrapper: {
+        flex: 1,
+        marginLeft: vh*2,
+        marginRight: vh*2,
+        alignItems: 'center',
+        backgroundColor: 'rgba(52, 52, 52, 0.40)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     appButtonContainer:{
-        marginTop: 10,
-        elevation: 8,
+        flex: 0.4,
+        marginTop: vh*2,
+        marginBottom: vh*10,
         backgroundColor: '#8FD14F',
-        borderRadius: 10,
-        paddingVertical: 10,
-        paddingHorizontal: 12,
+        borderRadius: vh*1,
+        paddingVertical: vh*0.7,
+        marginLeft: vh*15,
+        marginRight: vh*15,
+        justifyContent: 'center',
 
     },  
     button:{
         color: '#FFFEF2',
-        width: '20%',
-        fontSize: 18,
+        fontSize: vw*4,
         fontWeight: "bold",
         alignSelf: "center",
     },
@@ -239,55 +291,6 @@ const styles = StyleSheet.create({
         color: '#FFFEF2',
         textAlign: 'center',
     },
-    loadingContainer: {
-        marginTop: 10,
-        backgroundColor: 'rgba(52, 52, 52, 0.40)',
-        justifyContent: 'center',
-        width: '95%',
-        height: '8%',
-        alignItems: 'center',
-    },
-    descBox: {
-        textAlign: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#fff',
-        fontSize: 14,
-        fontFamily: 'System',
-        fontWeight: 'bold'
-    },
-    imageWrapper: {
-        width: '80%',
-        height: '50%',
-        padding: 10,
-        borderColor: '#8FD14F',
-        borderWidth: 6,
-        borderStyle: 'dashed',
-        marginTop: 40,
-        marginBottom: 20,
-        position: 'relative',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    imageContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        position: 'absolute',
-        alignItems: 'center',
-        top: 10,
-        left: 10,
-        bottom: 10,
-        right: 10
-    },
-    predictionWrapper: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: 'rgba(52, 52, 52, 0.40)',
-        justifyContent: 'center',
-        width: '80%',
-        height: '13%',
-        alignItems: 'center',
-    }
 })
 
 export default ClassifierScreen

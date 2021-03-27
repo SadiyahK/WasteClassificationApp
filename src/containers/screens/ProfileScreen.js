@@ -30,14 +30,14 @@ export default class ProfileScreen extends Component {
       uid: firebase.auth().currentUser.uid
     }
     return (
-    <View>
+    <View style={stylesheet.outerContainer}>
       {/* Icon */}
       <View style={stylesheet.topContainer}>
         <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
       </View>
 
       {/* Display user data */}
-      <View style={stylesheet.container}>
+      <View style={stylesheet.greyContainer}>
         <View style={stylesheet.inputStyle}>
           <Text style={stylesheet.text}>Name: {this.state.displayName}</Text>
         </View>

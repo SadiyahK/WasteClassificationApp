@@ -19,7 +19,7 @@ export default class ResetPasswordScreen extends Component {
     onResetPasswordClick = () => {
         firebase.auth().sendPasswordResetEmail(this.state.email)
         .then(() => {
-            Alert.alert("Password reset email has been sent to your email address. Please check you spam box.");
+            Alert.alert("Password reset email has been sent. Please check your spam box.");
             this.setState({ email: ""})
         }, (error) => {
             Alert.alert(error.message);
@@ -28,13 +28,13 @@ export default class ResetPasswordScreen extends Component {
 
     render() {
         return (
-        <View>
+        <View style={stylesheet.outerContainer}>
             {/* Top Icon */}
             <View style={stylesheet.topContainer}>
                 <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
             </View>
 
-            <View style={{...stylesheet.container, height: '40%'}}>
+            <View style={{...stylesheet.greyContainer, height: '40%'}}>
                 {/* Input text field */}
                 <TextInput style={{...stylesheet.inputStyle, borderTopWidth: 1,}}
                     testID="reset.EmailInput"
