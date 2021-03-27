@@ -34,7 +34,7 @@ export default class SignupScreen extends Component {
       Alert.alert('Enter details to sign up!')
     } 
     else if(this.state.password.length < 8 || !(/\d/.test(this.state.password))){
-      Alert.alert('Please enter a password that is at least 8 characters long and contains at least 1 number')
+      Alert.alert('Password must be at least 8 characters and contain a number')
     }
     else {
       this.setState({ isLoading: true })
@@ -68,13 +68,13 @@ export default class SignupScreen extends Component {
     } 
     // otherwise, allow user to sign up   
     return (
-    <View>
+    <View style={stylesheet.outerContainer}>
       {/* Top Icon display */}
       <View style={stylesheet.topContainer}>
         <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
       </View>
       {/* UI for input fields */}
-      <View style={stylesheet.container}>
+      <View style={stylesheet.greyContainer}>
         <TextInput
           testID="signUp.NameInput"
           style={stylesheet.inputStyle}

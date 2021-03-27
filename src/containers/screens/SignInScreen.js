@@ -2,7 +2,7 @@
  * SigninScreen: Handles user authentication of existing users.
  */
 import React, { Component } from 'react';
-import {Text, View, TextInput, Alert, ActivityIndicator, TouchableOpacity, Image } from 'react-native';
+import {Text, View, TextInput, Alert, ActivityIndicator, TouchableOpacity, Image, key } from 'react-native';
 import firebase from '../../database/Firebase';
 import stylesheet from '../../styles/stylesheet.js'
 
@@ -61,13 +61,13 @@ export default class SigninScreen extends Component {
 
     // Otherwise, show sign in
     return (
-        <View>
+        <View style={stylesheet.outerContainer}>
           {/* Top Icon */}
           <View style={stylesheet.topContainer}>
             <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
           </View>
           {/* Input fields */}
-          <View style={stylesheet.container}>
+          <View style={stylesheet.greyContainer}>
             <TextInput
               testID="signIn.EmailInput"
               style={stylesheet.inputStyle}

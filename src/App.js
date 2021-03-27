@@ -6,7 +6,8 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons'; 
+import Icon from 'react-native-vector-icons/Ionicons';
+import {vw, vh} from 'react-native-viewport-units';
 
 import ProfileScreen from './containers/screens/ProfileScreen'
 import ClassifierScreen from './containers/screens/ClassifierScreen'
@@ -22,17 +23,14 @@ function HomeStackScreen() {
     screenOptions={{
       headerStyle: {
         backgroundColor: '#8FD14F',
-        height: 100
       },
       headerTintColor: '#FFFEF2',
       headerTitleStyle: {
-        fontWeight: '800',
+        fontWeight: "bold",
         fontFamily: 'System',
-        fontSize: 35,
+        fontSize: vw*8,
+        alignSelf: 'center',
       },
-      headerLeft: () => (
-        <Icon style={{ marginLeft: 85 }} name="ios-leaf" color={'#228C22'} size={40}/>
-      ),
     }}>
       <HomeStack.Screen name="Home" component={ClassifierScreen} options={{ headerTitle: "Classifier" }}/>
     </HomeStack.Navigator>
@@ -47,19 +45,19 @@ function AccountStackScreen() {
     screenOptions={{
       headerStyle: {
         backgroundColor: '#8FD14F',
-        height: 100
       },
       headerTintColor: '#FFFEF2',
       headerTitleStyle: {
-        fontWeight: '800',
+        fontWeight: "bold",//'800',
         fontFamily: 'System',
-        fontSize: 35,
+        fontSize: vw*8, //35
+        alignSelf: 'center',
       },
     }}>
       <AccountStack.Screen name="SignUp" component={SignUpScreen} options={{ headerTitle: "Sign Up" }}/>
       <AccountStack.Screen name="SignIn" component={SignInScreen} options={{ headerTitle: "Sign In" }}/>
       <AccountStack.Screen name="Profile" component={ProfileScreen} options={{ headerTitle: "Profile" }}/>
-      <AccountStack.Screen name="ResetPassword" component={ResetPassword} options={{ headerTitle: "Reset Password" }}/>
+      <AccountStack.Screen name="ResetPassword" component={ResetPassword} options={{ headerTitle: "Reset Password"}}/>
     </AccountStack.Navigator>
   );
 }
