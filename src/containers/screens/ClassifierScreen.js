@@ -6,7 +6,9 @@
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Image, Alert} from 'react-native'
 import * as tf from '@tensorflow/tfjs'
 import * as ImagePicker from 'expo-image-picker';
-import * as jpeg from 'jpeg-js'
+//import { FileSystem } from 'expo'
+import * as FileSystem from 'expo-file-system';
+import * as jpeg from 'jpeg-js';
 import React, { useState, useEffect }  from 'react';
 import { fetch, bundleResourceIO } from '@tensorflow/tfjs-react-native';
 import {vw, vh} from 'react-native-viewport-units';
@@ -51,9 +53,13 @@ class ClassifierScreen extends React.Component {
     classifyImage = async () => {
         try {
             const imgAssetPath = Image.resolveAssetSource(this.state.image)
-            const fetchedResponse = await fetch(imgAssetPath.uri, {}, { isBinary: true })
-            const rawImgData = await fetchedResponse.arrayBuffer()
-            const imgTensor = this.convertImageToTensor(rawImgData)
+            const imgB64 = await FileSystem.readAsStringAsync(imgAssetPath.uri, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
+            //const fetchedResponse = await fetch(imgAssetPath.uri, {}, { isBinary: true })
+            //const rawImgData = await imgB64.arrayBuffer()
+            const imgBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
+            const imgTensor = this.convertImageToTensor(imgBuffer)
             const predictions = await this.wasteDetector.predict(imgTensor)
             this.getPrediction(predictions)
         } catch (error) {
