@@ -51,23 +51,6 @@ plot_compare = cf.fit_generator(training_set, steps_per_epoch=(2024/32), epochs=
 # save it for retraining later
 cf.save('cnn-model')
 
-#plot data on graphs
-plt.plot(plot_compare.history['loss'])
-plt.plot(plot_compare.history['val_loss'])
-plt.title('Model Loss')
-plt.ylabel('Loss')
-plt.xlabel('Epoch')
-plt.legend(['Train', 'Val'], loc='upper right')
-plt.show()
-
-plt.plot(plot_compare.history['accuracy'])
-plt.plot(plot_compare.history['val_accuracy'])
-plt.title('Model accuracy')
-plt.ylabel('Accuracy')
-plt.xlabel('Epoch')
-plt.legend(['Train', 'Val'], loc='lower right')
-plt.show()
-
 
 ####### TESTING THE MODEL ####### 
 from keras.models import load_model
