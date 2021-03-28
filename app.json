@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "classifier-app",
+    "description":"A waste classification app that uses Machine Learning to allow users to discover what material an item is.",
     "slug": "classifier-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -14,17 +15,19 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "src/assets/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sadiyah.kn.classifier-app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "com.sadiyah.kn.classifierapp"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
