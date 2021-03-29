@@ -1,3 +1,6 @@
+/**
+ * Test Class for ResetPasswordScreen.js
+*/
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native'
 
@@ -5,6 +8,8 @@ import ResetPasswordScreen from '../src/containers/screens/ResetPasswordScreen';
 import { Alert } from 'react-native'
 
 //mock alert
+// taken from the comment Fossage left on 26 Sep 2019 on this post:
+// https://github.com/facebook/react-native/issues/26579 
 jest.mock('react-native', () => {
     const RN = jest.requireActual('react-native')
 
@@ -19,7 +24,9 @@ jest.mock('react-native', () => {
     )
 })
 
-//mock firebase
+// mock firebase
+// code inspired by Ilan Roitlender's comment on Jul 25 2020 at 18:35:
+// https://stackoverflow.com/questions/61358076/is-there-a-way-to-mock-firebase-modules-in-jest 
 jest.mock('firebase', () => {
     return {
     initializeApp: jest.fn(),
@@ -36,31 +43,33 @@ jest.mock('firebase', () => {
     };
   });
 
-it("renders default elements", () =>{
-    const { getAllByText, getByPlaceholderText } = render(<ResetPasswordScreen />)
 
+it("given Reset Password Screen renders, render should show reset password button", () =>{
+    const { getAllByText } = render(<ResetPasswordScreen />)
     expect(getAllByText("Reset Password").length).toBe(1)
+})
+
+it("given Reset Password Screen renders, render should show email text field", () =>{
+    const { getByPlaceholderText } = render(<ResetPasswordScreen />)
     //if placeholder text is shown then that means input fields are empty as expected
     getByPlaceholderText("Email")
 })
 
-it("handles valid input", async () => {
+it("given reset password button clicked with valid email, onResetPasswordClick displays positive alert", async () => {
 
     const { getByTestId, getByText } = render(<ResetPasswordScreen />)
     fireEvent.changeText(getByTestId("reset.EmailInput"), 'test123@hotmail.com')
     fireEvent.press(getByTestId("reset.Button"))
 
     await act(() => new Promise((resolve) => setImmediate(resolve)))
-    expect(Alert.alert).toHaveBeenCalled()
+    expect(Alert.alert).toHaveBeenCalledWith("Password reset email has been sent. Please check your spam box.")
 })
 
-// it("check text changes", () =>{
-//     const { getAllByText, getByTestId } = render(<ResetPasswordScreen />)
+it("given reset password button clicked with invalid email, onResetPasswordClick displays negative alert", async () => {
 
-//     fireEvent.changeText(getByTestId("reset.EmailInput"), 'test123@hotmail.com')
-//     expect(getAllByText("test123@hotmail.com").length).toBe(1)
-// })
+    const { getByTestId, getByText } = render(<ResetPasswordScreen />)
+    fireEvent.press(getByTestId("reset.Button"))
 
-
-//what happens if they press reset without entering something?
-// Should i check that if user inputs something then the text is updated?
+    await act(() => new Promise((resolve) => setImmediate(resolve)))
+    expect(Alert.alert).toHaveBeenCalledWith("Please enter an email address to send the reset password email to.")
+})

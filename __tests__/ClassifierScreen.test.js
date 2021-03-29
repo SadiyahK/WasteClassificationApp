@@ -1,9 +1,12 @@
-import React, { Text } from 'react';
+/**
+ * Test Class for ClassifierScreen.js
+*/
+import React from 'react';
+import {Text, Alert} from 'react-native'
 import { render, fireEvent } from '@testing-library/react-native'
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import ClassifierScreen from '../src/containers/screens/ClassifierScreen';
-import { Alert } from 'react-native'
 import { shallow } from 'enzyme';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -25,18 +28,33 @@ jest.mock('react-native', () => {
     )
 })
 
-it("renders default elements", () =>{
+it("given Sign In screen renders, render should show reset button", () =>{
     const { getAllByText } = render(<ClassifierScreen />)
-
     expect(getAllByText("Reset").length).toBe(1)
+})
+
+it("given Sign In screen renders, render should show description box", () =>{
+    const { getAllByText } = render(<ClassifierScreen />)
     expect(getAllByText("Once the model has loaded tap the green box to take a picture to classify!").length).toBe(1)
+})
+
+it("given Sign In screen renders, render should show green box with text", () =>{
+    const { getAllByText } = render(<ClassifierScreen />)
     expect(getAllByText("Waiting for Model to Load").length).toBe(1)
 })
 
-it("alert appears when model is not ready", () =>{
+it("given user cliked green box before model is ready, onCamViewNotReadyClick should show alert", () =>{
     const { getAllByText, getByTestId } = render(<ClassifierScreen />)
     fireEvent.press(getByTestId("classifier.CameraDisplay"))
-    expect(Alert.alert).toHaveBeenCalled()
+    expect(Alert.alert).toHaveBeenCalledWith("Please wait for the model to load before trying to take an image")
+})
+
+it("given prediction array data, getPrediction should return ", () =>{
+    const testArr = [0.0002, 0.01, 0.003, 0.000045, 0.0001, 0.0006]
+    const classes = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash']
+    const result = ClassifierScreen.prototype.mapArrays(testArr, classes)
+    const expectedResult = ["glass", "metal", "trash", "cardboard", "plastic", "paper"]
+    expect(result).toEqual(result)
 })
  
   const initialState = {
@@ -59,29 +77,44 @@ it("alert appears when model is not ready", () =>{
         wrapper.unmount();
      });
 
-     it("check text changes once model has loaded", async () =>{
+     const getPermissionAsync = jest.fn(() => {
+        return Promise.resolve('successful');
+      });
+
+     it("given componentDidMount is done, green box text display should change", async () =>{
         expect(wrapper.containsMatchingElement(<Text>Tap to open camera</Text>))
     })
     
-    it("check predictions are displayed once the state is updated", async () =>{
+    it("given prediction data, predictions should be displayed in grey box", async () =>{
         expect(wrapper.containsMatchingElement(<Text>Most Likely:</Text>))
         expect(wrapper.containsMatchingElement(<Text>Probability:</Text>))
     })
 
-    it("check reset button clears predictions and image", async () =>{
+    it("given reset button clicked, onResetClick should reset image", async () =>{
         wrapper.find('Text').at(3).simulate('click');
-        expect(wrapper.containsMatchingElement(<Text>Predictions:   </Text>))
         expect(wrapper.containsMatchingElement(<Text>Tap to open camera</Text>))
     })
 
-    it("check reset button clears predictions and image", async () =>{
+    it("given reset button clicked, onResetClick should reset predictions", async () =>{
+        wrapper.find('Text').at(3).simulate('click');
+        expect(wrapper.containsMatchingElement(<Text>Predictions:   </Text>))
+    })
+
+    it("given green box clicked after model has loaded, onCamClick should open camera screen", async () =>{
         expect(wrapper.containsMatchingElement(<Text>Tap to open camera</Text>))
         wrapper.find('Text').at(1).simulate('click');
         expect(!wrapper.containsMatchingElement(<Text>Tap to open camera</Text>))
     })
+
+      it("given green box clicked after model has loaded, getPermissionAsync should ask for permissions", async () =>{
+        expect(wrapper.containsMatchingElement(<Text>Tap to open camera</Text>))
+        wrapper.find('Text').at(1).simulate('click');
+        await expect(getPermissionAsync()).resolves.toBe("successful")
+    })
+
+    it("classify image", async() =>{
+        wrapper.setState({image: './test-cardboard2.jpg'})
+        wrapper.instance().classifyImage()
+        expect(Alert.alert).toHaveBeenCalled()
+    })
   })
-
-// check if i tap then the camera opens... kinda done
-// check camera permissions? hmm how?
-
-

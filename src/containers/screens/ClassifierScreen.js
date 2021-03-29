@@ -6,7 +6,6 @@
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Image, Alert} from 'react-native'
 import * as tf from '@tensorflow/tfjs'
 import * as ImagePicker from 'expo-image-picker';
-//import { FileSystem } from 'expo'
 import * as FileSystem from 'expo-file-system';
 import * as jpeg from 'jpeg-js';
 import React, { useState, useEffect }  from 'react';
@@ -15,11 +14,11 @@ import {vw, vh} from 'react-native-viewport-units';
 
 class ClassifierScreen extends React.Component {
     state = {
-        isTfReady: false,
-        isModelReady: false,
-        predictions: null,
         image: null,
         results: null,
+        isTfReady: false,
+        predictions: null,
+        isModelReady: false,
     }
 
     // Initial setup of tensorflow and model
@@ -44,7 +43,7 @@ class ClassifierScreen extends React.Component {
         if (Platform.OS !== 'web') {
             const { status } = await ImagePicker.requestCameraPermissionsAsync();
             if (status !== 'granted') {
-                Alert.alert('Sorry, we need camera  permissions to make this work!');
+                Alert.alert('In order to classify an item we need camera permissions!');
             }
           }
     }    
@@ -58,12 +57,13 @@ class ClassifierScreen extends React.Component {
             });
             //const fetchedResponse = await fetch(imgAssetPath.uri, {}, { isBinary: true })
             //const rawImgData = await imgB64.arrayBuffer()
-            const imgBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
-            const imgTensor = this.convertImageToTensor(imgBuffer)
-            const predictions = await this.wasteDetector.predict(imgTensor)
-            this.getPrediction(predictions)
+            const imageBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
+            const imgTensor = this.convertImageToTensor(imageBuffer)
+            const classification = await this.wasteDetector.predict(imgTensor)
+            this.getClassPrediction(classification)
         } catch (error) {
             console.log(error)
+            this.setState({ predictions: null, results: null, image: null})
             Alert.alert("Sorry, unable to classify this. Please try again")
         }
     }
@@ -76,7 +76,7 @@ class ClassifierScreen extends React.Component {
     }
 
     // take numerical predictions and get string values
-    getPrediction(predictions){
+    getClassPrediction(predictions){
         // format predictions to string classes
         const classes = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash']
         // {'cardboard': 0, 'glass': 1, 'metal': 2, 'paper': 3, 'plastic': 4, 'trash': 5}
@@ -89,11 +89,11 @@ class ClassifierScreen extends React.Component {
     // reformat tensor to match expected intput for model
     // Method inspired by Lin Xiang's code (linked above)
     formatTensor(img){
-        const resized_img = tf.image.resizeBilinear(img, [256, 256]);
-        // add a fourth batch dimension to the tensor
-        const expanded_img = resized_img.expandDims(0);
-        // normalise the rgb values to -1-+1
-        return expanded_img.toFloat().div(tf.scalar(127)).sub(tf.scalar(1));
+        const imageResized = tf.image.resizeBilinear(img, [256, 256]);
+        // from 3D tensor to 4D tensor
+        const imageExpanded = imageResized.expandDims(0);
+        // rgb values normalised from 0 to 255 to range -1 to +1
+        return imageExpanded.toFloat().div(tf.scalar(127)).sub(tf.scalar(1));
     }
 
     // Convert input image to tensor so model can process it
@@ -101,16 +101,17 @@ class ClassifierScreen extends React.Component {
     convertImageToTensor(rawImageData) {
         const TO_UINT8ARRAY = true
         const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY)
-        const buffer = new Uint8Array(width * height * 3)
-        let offset = 0 // offset into original data
-        for (let i = 0; i < buffer.length; i += 3) {
-            buffer[i] = data[offset]
-            buffer[i + 1] = data[offset + 1]
-            buffer[i + 2] = data[offset + 2]
-            offset += 4
+        const imgBuffer = new Uint8Array(width * height * 3)
+        let ofs = 0 // offset from original data
+        for (let x = 0; x < imgBuffer.length; x += 3) {
+            imgBuffer[x] = data[ofs]
+            imgBuffer[x + 1] = data[ofs + 1]
+            imgBuffer[x + 2] = data[ofs + 2]
+            ofs += 4
         }
-        const img = tf.tensor3d(buffer, [height, width, 3]) //create tensor
-        return this.formatTensor(img)
+        //create a 3d tensor
+        const tensor = tf.tensor3d(imgBuffer, [height, width, 3]) 
+        return this.formatTensor(tensor)
     }
 
     // Handles opening camera and storing image taken.
@@ -136,9 +137,7 @@ class ClassifierScreen extends React.Component {
 
     // onResetClick placeholders for next classification
     onResetClick(event) {
-        this.setState({ predictions: null})
-        this.setState({results: null})
-        this.setState({image: null})
+        this.setState({ predictions: null, results: null, image: null})
     }
 
     // display alert if user tries to open camera
