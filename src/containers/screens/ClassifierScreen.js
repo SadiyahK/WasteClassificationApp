@@ -23,17 +23,13 @@ class ClassifierScreen extends React.Component {
 
     // Initial setup of tensorflow and model
     async componentDidMount() {
-        //Wait for tensorflow module to be ready
         await tf.ready()
         this.setState({ isTfReady: true })
-        console.log("[+] Loading custom waste classification model")
 
         // load model - inspired by Lin Xiang's code (linked above)
         const modelJson = await require("../..//assets/model/model.json")
         const modelWeight = await require("../../assets/model/group1-shard1of1.bin")
         this.wasteDetector = await tf.loadLayersModel(bundleResourceIO(modelJson,modelWeight))
-
-        console.log("[+] Model Loaded")
         this.setState({ isModelReady: true })
         this.getPermissionAsync()
     }
@@ -55,8 +51,6 @@ class ClassifierScreen extends React.Component {
             const imgB64 = await FileSystem.readAsStringAsync(imgAssetPath.uri, {
                 encoding: FileSystem.EncodingType.Base64,
             });
-            //const fetchedResponse = await fetch(imgAssetPath.uri, {}, { isBinary: true })
-            //const rawImgData = await imgB64.arrayBuffer()
             const imageBuffer = tf.util.encodeString(imgB64, 'base64').buffer;
             const imgTensor = this.convertImageToTensor(imageBuffer)
             const classification = await this.wasteDetector.predict(imgTensor)

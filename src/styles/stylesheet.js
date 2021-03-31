@@ -1,5 +1,5 @@
 /**
- * External stylesheet for styling
+ * External stylesheet for styling components -  this avoids code duplication.
  */
 import { StyleSheet } from 'react-native';
 import {vw, vh} from 'react-native-viewport-units';
