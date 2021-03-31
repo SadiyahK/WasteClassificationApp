@@ -69,7 +69,7 @@ export default class SignupScreen extends Component {
     // otherwise, allow user to sign up   
     return (
     <View style={stylesheet.outerContainer}>
-      {/* Top Icon display */}
+      {/* Image taken from: https://favpng.com/png_view/recycle-associate-electronic-waste-recycling-symbol-recycling-bin-png/vrb0ex8e*/}
       <View style={stylesheet.topContainer}>
         <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
       </View>

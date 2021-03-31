@@ -31,7 +31,7 @@ export default class ProfileScreen extends Component {
     }
     return (
     <View style={stylesheet.outerContainer}>
-      {/* Icon */}
+      {/* Image taken from: https://favpng.com/png_view/recycle-associate-electronic-waste-recycling-symbol-recycling-bin-png/vrb0ex8e*/}
       <View style={stylesheet.topContainer}>
         <Image source={require('../../assets/recycle-leaf.png')} style={stylesheet.imageIcon}/>
       </View>
