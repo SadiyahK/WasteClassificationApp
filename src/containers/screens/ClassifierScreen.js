@@ -1,7 +1,7 @@
 /**
  * ClassifierScreen: Controls classification feature and handles use of model.
- * The code for loading the model and formatting the image tensor were inspired by this post written by Lin Xiang
- * https://javascript.plainenglish.io/how-to-run-ai-models-locally-in-the-smartphone-with-react-native-and-tensorflow-js-666f52fd15ca
+ * The code for loading the model and formatting the image were inspired by this github code written by TensorFlow tfjs:
+ * https://github.com/tensorflow/tfjs/blob/master/tfjs-react-native/integration_rn59/components/mobilenet_demo.tsx
  */
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Image, Alert} from 'react-native'
 import * as tf from '@tensorflow/tfjs'
@@ -22,6 +22,7 @@ class ClassifierScreen extends React.Component {
     }
 
     // Initial setup of tensorflow and model
+    // Method partly inspired by tensorflow tfjs code (linked above)
     async componentDidMount() {
         await tf.ready()
         this.setState({ isTfReady: true })
@@ -81,7 +82,6 @@ class ClassifierScreen extends React.Component {
     }
 
     // reformat tensor to match expected intput for model
-    // Method inspired by Lin Xiang's code (linked above)
     formatTensor(img){
         const imageResized = tf.image.resizeBilinear(img, [256, 256]);
         // from 3D tensor to 4D tensor
@@ -91,7 +91,7 @@ class ClassifierScreen extends React.Component {
     }
 
     // Convert input image to tensor so model can process it
-    // Method inspired by Lin Xiang's code (linked above)
+    // Method partly inspired by tensorflow tfjs code (linked above)
     convertImageToTensor(rawImageData) {
         const TO_UINT8ARRAY = true
         const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY)
