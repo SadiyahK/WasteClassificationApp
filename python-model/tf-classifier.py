@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Flatten
@@ -39,10 +38,10 @@ cf.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['ac
 #data augmentation
 train_dataGen = ImageDataGenerator(horizontal_flip=True, rescale=1./255, zoom_range=0.2, shear_range=0.2)
 validation_dataGen = ImageDataGenerator(rescale=1./255)
-#  Preparing training and validation set.
-training_set = train_dataGen.flow_from_directory('dataset-resized/training_set', target_size=(256, 256), 
+#  Preparing training and validation/test set.
+training_set = train_dataGen.flow_from_directory('../../training_set', target_size=(256, 256), 
                                              batch_size=32, class_mode='categorical')
-validation_set = validation_dataGen.flow_from_directory('dataset-resized/test_set', target_size=(256, 256), 
+validation_set = validation_dataGen.flow_from_directory('../../test_set', target_size=(256, 256), 
                                             batch_size=32, class_mode='categorical')
 
 # train model using generator method as dataset has augmentation
@@ -51,32 +50,15 @@ plot_compare = cf.fit_generator(training_set, steps_per_epoch=(2024/32), epochs=
 # save it for retraining later
 cf.save('cnn-model')
 
-#plot data on graphs
-plt.plot(plot_compare.history['loss'])
-plt.plot(plot_compare.history['val_loss'])
-plt.title('Model Loss')
-plt.ylabel('Loss')
-plt.xlabel('Epoch')
-plt.legend(['Train', 'Val'], loc='upper right')
-plt.show()
-
-plt.plot(plot_compare.history['accuracy'])
-plt.plot(plot_compare.history['val_accuracy'])
-plt.title('Model accuracy')
-plt.ylabel('Accuracy')
-plt.xlabel('Epoch')
-plt.legend(['Train', 'Val'], loc='lower right')
-plt.show()
-
 
 ####### TESTING THE MODEL ####### 
 from keras.models import load_model
 
 # reconstruct the model identically.
-model = load_model('C:/Users/Sadiy/OneDrive/Documents/KCL/Y3/PRJ/dataset-resized/cnn-model')
+model = load_model('cnn-model')
 # Prepare test set
 test_dataGen = ImageDataGenerator(rescale=1./255)
-test_set = test_dataGen.flow_from_directory('C:/Users/Sadiy/OneDrive/Documents/KCL/Y3/PRJ/dataset-resized/test-images-post-save', 
+test_set = test_dataGen.flow_from_directory('../../test-images-post-save', 
                                             target_size=(256, 256), batch_size=32, class_mode='categorical')
 
 results = model.evaluate(test_set, batch_size=128)
@@ -84,5 +66,5 @@ print("test loss, test acc:", results)
 
 # SAVE MODEL AS JSON+BIN FILES
 import tensorflowjs as tfjs
-tfjs.converters.save_keras_model(model, 'C:/Users/Sadiy/OneDrive/Documents/KCL/Y3/PRJ/dataset-resized/cnn-model-V1.2+10-resaved')
+tfjs.converters.save_keras_model(model, 'cnn-model-updated')
 
