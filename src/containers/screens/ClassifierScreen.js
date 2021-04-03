@@ -110,6 +110,9 @@ class ClassifierScreen extends React.Component {
 
     // Handles opening camera and storing image taken.
     onCamClick = async () => {
+        if(this.state.image != null){
+            return
+        }
         try{
             let result = await ImagePicker.launchCameraAsync({
             allowsEditing: true,
